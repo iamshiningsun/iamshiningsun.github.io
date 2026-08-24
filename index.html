@@ -613,11 +613,12 @@ footer{padding:36px 72px;display:flex;align-items:center;justify-content:space-b
   <div class="footer-note">Clove-coded · Firebase + GitHub + Discord · 2025</div>
 </footer>
 
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js';
-import { getAnalytics } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js';
-import { getFirestore, collection, addDoc, doc, getDoc, setDoc, increment, serverTimestamp, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js';
+<!-- Firebase compat SDKs (work on file:// and any server) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
 
+<script>
 const firebaseConfig = {
   apiKey: "AIzaSyC3I9An38y5mrrxKr5GEoxMGXSwt5FcFoA",
   authDomain: "shiningsunweb.firebaseapp.com",
@@ -628,9 +629,9 @@ const firebaseConfig = {
   measurementId: "G-TDRH309EXX"
 };
 
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+const db = firebase.firestore();
 
 // ── LOADER ──
 const loaderBar = document.getElementById('loaderBar');
@@ -642,7 +643,7 @@ const steps = [
   [55, 'Fetching Discord data...'],
   [75, 'Initialising Firebase...'],
   [90, 'Almost ready...'],
-  [100, 'Let's go!']
+  [100, "Let's go!"]
 ];
 let si = 0;
 const loaderInterval = setInterval(() => {
@@ -679,8 +680,8 @@ window.addEventListener('scroll', () => {
 function toast(msg, type = 'info') {
   const tc = document.getElementById('toast-container');
   const t = document.createElement('div');
-  t.className = `toast ${type}`;
-  t.innerHTML = `<div class="toast-dot"></div>${msg}`;
+  t.className = 'toast ' + type;
+  t.innerHTML = '<div class="toast-dot"></div>' + msg;
   tc.appendChild(t);
   requestAnimationFrame(() => t.classList.add('show'));
   setTimeout(() => {
@@ -694,7 +695,7 @@ const charMain = document.getElementById('charMain');
 document.addEventListener('mousemove', e => {
   const x = (e.clientX / window.innerWidth - 0.5) * 12;
   const y = (e.clientY / window.innerHeight - 0.5) * 8;
-  charMain.style.transform = `translateY(${y}px) translateX(${x}px)`;
+  charMain.style.transform = 'translateY(' + y + 'px) translateX(' + x + 'px)';
 });
 
 // ── TYPEWRITER ──
@@ -749,30 +750,22 @@ async function loadGitHub() {
     const repos = await reposRes.json();
 
     const totalStars = repos.reduce((s, r) => s + r.stargazers_count, 0);
-    const totalForks = repos.reduce((s, r) => s + r.forks_count, 0);
 
-    // Update stat pills
     document.getElementById('gh-total-repos').textContent = user.public_repos || repos.length;
     document.getElementById('gh-total-stars').textContent = totalStars;
     document.getElementById('gh-followers').textContent = user.followers;
     document.getElementById('gh-following').textContent = user.following;
-
-    // Update stats bar
     document.getElementById('stat-repos').textContent = user.public_repos || repos.length;
     document.getElementById('stat-stars').textContent = totalStars;
-
-    // Update hero badge
     document.getElementById('gh-repos-badge').textContent = (user.public_repos || repos.length) + ' repos';
 
-    // Language colors map
     const langColors = {
-      JavaScript:'#f1e05a',TypeScript:'#3178c6',Python:'#3572A5',
-      HTML:'#e34c26',CSS:'#563d7c',Vue:'#41b883',React:'#61dafb',
-      'C++':'#f34b7d',Rust:'#dea584',Go:'#00ADD8',default:'#7c4fc4'
+      JavaScript:'#f1e05a', TypeScript:'#3178c6', Python:'#3572A5',
+      HTML:'#e34c26', CSS:'#563d7c', Vue:'#41b883',
+      'C++':'#f34b7d', Rust:'#dea584', Go:'#00ADD8', default:'#7c4fc4'
     };
 
-    // Sort by stars then updated
-    const sorted = [...repos]
+    const sorted = repos
       .filter(r => !r.fork)
       .sort((a, b) => b.stargazers_count - a.stargazers_count || new Date(b.updated_at) - new Date(a.updated_at))
       .slice(0, 6);
@@ -781,19 +774,17 @@ async function loadGitHub() {
     grid.innerHTML = sorted.map(r => {
       const color = langColors[r.language] || langColors.default;
       const desc = r.description || 'No description provided.';
-      return `<div class="repo-card">
-        <div class="repo-name">${r.name}</div>
-        <div class="repo-desc">${desc.slice(0,90)}${desc.length>90?'...':''}</div>
-        <div class="repo-meta">
-          ${r.language ? `<div class="repo-lang"><div class="repo-lang-dot" style="background:${color}"></div>${r.language}</div>` : ''}
-          <div class="repo-stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>${r.stargazers_count}</div>
-          <div class="repo-stars" style="color:var(--plight)"><svg viewBox="0 0 24 24" style="fill:var(--plight)"><path d="M6 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm12 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM6 10a5 5 0 0 0-5 5v1h10v-1a5 5 0 0 0-5-5zm12 0a5 5 0 0 0-5 5v1h10v-1a5 5 0 0 0-5-5z"/></svg>${r.forks_count}</div>
-        </div>
-        <a href="${r.html_url}" target="_blank" class="repo-link"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg></a>
-      </div>`;
+      return '<div class="repo-card">' +
+        '<a href="' + r.html_url + '" target="_blank" class="repo-link"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg></a>' +
+        '<div class="repo-name">' + r.name + '</div>' +
+        '<div class="repo-desc">' + desc.slice(0,90) + (desc.length>90?'...':'') + '</div>' +
+        '<div class="repo-meta">' +
+        (r.language ? '<div class="repo-lang"><div class="repo-lang-dot" style="background:' + color + '"></div>' + r.language + '</div>' : '') +
+        '<div class="repo-stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>' + r.stargazers_count + '</div>' +
+        '<div class="repo-stars" style="color:var(--plight)"><svg viewBox="0 0 24 24" style="fill:var(--plight)"><path d="M6 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm12 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM6 10a5 5 0 0 0-5 5v1h10v-1a5 5 0 0 0-5-5zm12 0a5 5 0 0 0-5 5v1h10v-1a5 5 0 0 0-5-5z"/></svg>' + r.forks_count + '</div>' +
+        '</div></div>';
     }).join('');
 
-    // Re-observe new cards
     grid.querySelectorAll('.repo-card').forEach(el => {
       el.style.opacity = '0';
       el.style.transform = 'translateY(20px)';
@@ -801,10 +792,10 @@ async function loadGitHub() {
       obs.observe(el);
     });
 
-    toast('GitHub data loaded ✓', 'success');
+    toast('GitHub loaded ✓', 'success');
   } catch(e) {
     console.warn('GitHub API:', e);
-    document.getElementById('github-repos-grid').innerHTML = '<div style="color:var(--muted);font-family:Barlow Condensed,sans-serif;padding:24px;letter-spacing:.1em">Could not load repos — check back soon.</div>';
+    document.getElementById('github-repos-grid').innerHTML = '<div style="color:var(--muted);font-family:Barlow Condensed,sans-serif;padding:24px;letter-spacing:.1em;grid-column:1/-1">Could not load repos — check back soon.</div>';
   }
 }
 
@@ -818,28 +809,25 @@ async function loadDiscord() {
     document.getElementById('dc-members').textContent = members.toLocaleString();
     document.getElementById('dc-online').textContent = online.toLocaleString();
     document.getElementById('dc-online-badge').textContent = online + ' online';
-    document.getElementById('stat-members').textContent = members;
-    toast('Discord data loaded ✓', 'success');
+    document.getElementById('stat-members').textContent = members.toLocaleString();
+    toast('Discord loaded ✓', 'success');
   } catch(e) {
     console.warn('Discord API:', e);
-    document.getElementById('dc-members').textContent = '—';
-    document.getElementById('dc-online').textContent = '—';
   }
 }
 
 // ── FIREBASE VISITOR COUNTER ──
-async function initVisitorCounter() {
+function initVisitorCounter() {
   try {
-    const ref = doc(db, 'site', 'visitors');
-    await setDoc(ref, { count: increment(1), lastVisit: serverTimestamp() }, { merge: true });
-    onSnapshot(ref, snap => {
+    const ref = db.collection('site').doc('visitors');
+    ref.set({ count: firebase.firestore.FieldValue.increment(1), lastVisit: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+    ref.onSnapshot(snap => {
       const data = snap.data();
       if (data) {
         document.getElementById('visitorCount').textContent = (data.count || 0).toLocaleString();
         document.getElementById('stat-visitors').textContent = (data.count || 0).toLocaleString();
       }
     });
-    // Simulate live visitors (random between 1-5)
     document.getElementById('liveVisitors').textContent = Math.floor(Math.random()*4+1) + ' people here now';
   } catch(e) {
     console.warn('Firebase counter:', e);
@@ -853,15 +841,15 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
   btn.textContent = 'Sending...';
   btn.classList.add('btn-loading');
   try {
-    await addDoc(collection(db, 'messages'), {
+    await db.collection('messages').add({
       name: document.getElementById('formName').value,
       email: document.getElementById('formEmail').value,
       subject: document.getElementById('formSubject').value,
       message: document.getElementById('formMessage').value,
-      timestamp: serverTimestamp(),
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       read: false
     });
-    toast('Message sent! I'll get back to you soon 💜', 'success');
+    toast("Message sent! I'll get back to you soon 💜", 'success');
     e.target.reset();
     btn.textContent = 'Send message →';
     btn.classList.remove('btn-loading');
@@ -873,10 +861,9 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
   }
 });
 
-// ── INIT ALL ──
+// ── INIT ──
 loadGitHub();
 loadDiscord();
 initVisitorCounter();
 </script>
 </body>
-</html>
