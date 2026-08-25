@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post — Shining Sun</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300&family=Barlow:wght@300;400;500&family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0816;--bg2:#120e22;
+  --purple:#7c4fc4;--pdim:#3d2770;--plight:#b8a0e8;
+  --lav:#cdbef5;--gold:#f0c060;--gdim:#b8893a;
+  --white:#ede8f8;--muted:rgba(200,185,235,0.55);
+  --green:#7fff6a;--red:#ff5f5f;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;cursor:none}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(100,60,180,0.022) 3px,rgba(100,60,180,0.022) 4px);pointer-events:none;z-index:998}
+
+/* CURSOR */
+#cursor{position:fixed;width:12px;height:12px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,background .2s;mix-blend-mode:difference}
+#cursor-trail{position:fixed;width:36px;height:36px;border:1px solid rgba(180,140,240,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .12s ease,top .12s ease}
+#scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(to right,var(--purple),var(--gold));z-index:9997;width:0%}
+#toast-container{position:fixed;bottom:32px;right:32px;z-index:9996;display:flex;flex-direction:column;gap:10px}
+.toast{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;padding:14px 20px;border:1px solid rgba(124,79,196,.4);background:rgba(18,14,34,.95);color:var(--white);backdrop-filter:blur(8px);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);display:flex;align-items:center;gap:10px;transform:translateX(120%);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.toast.show{transform:translateX(0)}
+.toast.success{border-color:rgba(127,255,106,.4)}
+.toast.error{border-color:rgba(255,80,80,.4)}
+.toast-dot{width:6px;height:6px;border-radius:50%;background:var(--plight);flex-shrink:0}
+.toast.success .toast-dot{background:var(--green)}
+.toast.error .toast-dot{background:#ff5050}
+
+/* AUTH MODAL */
+#auth-modal{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;background:rgba(11,8,22,.85);backdrop-filter:blur(8px)}
+#auth-modal.open{display:flex}
+.auth-box{background:var(--bg2);border:1px solid rgba(124,79,196,.3);padding:48px 40px;width:100%;max-width:420px;position:relative}
+.auth-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--plight);font-size:20px;cursor:none;opacity:.6;transition:opacity .2s}
+.auth-close:hover{opacity:1}
+.auth-title{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;text-transform:uppercase;color:var(--white);margin-bottom:6px}
+.auth-sub{font-size:13px;color:var(--muted);margin-bottom:32px;line-height:1.6}
+.auth-tabs{display:flex;gap:2px;margin-bottom:28px}
+.auth-tab{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:8px 20px;background:transparent;border:1px solid rgba(124,79,196,.25);color:var(--plight);cursor:none;transition:all .2s;flex:1}
+.auth-tab.active{background:var(--purple);color:var(--white);border-color:var(--purple)}
+.auth-form{display:flex;flex-direction:column;gap:14px}
+.auth-input{background:rgba(124,79,196,.08);border:1px solid rgba(124,79,196,.25);padding:12px 16px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--white);outline:none;transition:border-color .2s;width:100%;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
+.auth-input:focus{border-color:var(--purple)}
+.auth-input::placeholder{color:var(--muted)}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:4px 0}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:rgba(124,79,196,.2)}
+.auth-divider span{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:none;transition:background .2s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
+.btn-google:hover{background:rgba(255,255,255,.12)}
+.btn-google svg{width:18px;height:18px;flex-shrink:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:20px 52px;background:linear-gradient(to bottom,rgba(11,8,22,0.96),transparent);backdrop-filter:blur(3px)}
+.nav-logo{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--white);text-decoration:none}
+.nav-logo em{font-style:normal;color:var(--gold)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--plight);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-auth-btn{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:8px 18px;background:transparent;border:1px solid rgba(124,79,196,.4);color:var(--plight);cursor:none;transition:all .2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)}
+.nav-auth-btn:hover{border-color:var(--gold);color:var(--gold)}
+.nav-user{display:flex;align-items:center;gap:10px;cursor:none}
+.nav-avatar{width:32px;height:32px;border-radius:50%;border:2px solid rgba(124,79,196,.5);object-fit:cover;background:var(--pdim)}
+.nav-username{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--plight);text-transform:uppercase}
+.nav-signout{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:.15em;color:var(--muted);background:none;border:none;cursor:none;text-transform:uppercase;transition:color .2s}
+.nav-signout:hover{color:var(--red)}
+
+/* POST HERO */
+.post-hero{position:relative;min-height:65vh;display:flex;align-items:flex-end;overflow:hidden;padding:140px 72px 60px}
+.post-hero-bg{position:absolute;inset:0;z-index:0}
+.post-hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:brightness(.35) saturate(1.2)}
+.post-hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(11,8,22,1) 0%,rgba(11,8,22,.6) 50%,rgba(11,8,22,.2) 100%)}
+.post-hero-content{position:relative;z-index:2;max-width:800px}
+.post-breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:20px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.post-breadcrumb a{color:var(--plight);text-decoration:none;transition:color .2s;cursor:none}
+.post-breadcrumb a:hover{color:var(--gold)}
+.post-breadcrumb span{opacity:.4}
+.post-tag{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:5px 12px;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)}
+.post-tag.design{background:rgba(124,79,196,.25);color:var(--plight)}
+.post-tag.code{background:rgba(240,192,96,.15);color:var(--gold)}
+.post-tag.life{background:rgba(78,159,212,.15);color:#7ec8e3}
+.post-tag.game{background:rgba(212,95,155,.15);color:#f0a0c8}
+.post-meta-row{display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.post-date,.post-read{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase}
+.post-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(36px,6vw,80px);font-weight:900;text-transform:uppercase;color:var(--white);line-height:.9;letter-spacing:-.02em;margin-bottom:20px}
+.post-excerpt{font-size:16px;font-weight:300;line-height:1.7;color:var(--muted);max-width:620px}
+
+/* POST LAYOUT */
+.post-layout{display:grid;grid-template-columns:1fr 320px;gap:60px;padding:60px 72px 110px;max-width:1400px;margin:0 auto}
+
+/* POST CONTENT */
+.post-content{min-width:0}
+.prose{font-family:'Merriweather',serif;font-size:17px;font-weight:300;line-height:1.9;color:rgba(220,210,240,.88)}
+.prose h2{font-family:'Barlow Condensed',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:900;text-transform:uppercase;color:var(--white);letter-spacing:-.01em;margin:52px 0 20px;line-height:1}
+.prose h3{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:700;text-transform:uppercase;color:var(--plight);letter-spacing:.05em;margin:36px 0 16px}
+.prose p{margin-bottom:24px}
+.prose strong{color:var(--white);font-weight:400}
+.prose em{color:var(--lav)}
+.prose a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,96,.3);transition:border-color .2s;cursor:none}
+.prose a:hover{border-color:var(--gold)}
+.prose blockquote{border-left:3px solid var(--gold);padding:20px 28px;margin:36px 0;background:rgba(240,192,96,.04);font-style:italic;color:var(--lav)}
+.prose blockquote p{margin:0}
+.prose code{font-family:monospace;font-size:14px;background:rgba(124,79,196,.15);border:1px solid rgba(124,79,196,.25);padding:2px 8px;color:var(--plight);border-radius:2px}
+.prose pre{background:rgba(11,8,22,.8);border:1px solid rgba(124,79,196,.2);padding:28px;margin:32px 0;overflow-x:auto}
+.prose pre code{background:none;border:none;padding:0;font-size:13px;line-height:1.7;color:#c8b8f0}
+.prose ul,.prose ol{padding-left:28px;margin-bottom:24px}
+.prose li{margin-bottom:8px;color:rgba(220,210,240,.8)}
+.prose hr{border:none;border-top:1px solid rgba(124,79,196,.2);margin:48px 0}
+.prose img{width:100%;border:1px solid rgba(124,79,196,.2);margin:32px 0}
+
+/* POST INTERACTIONS BAR */
+.post-interact-bar{display:flex;align-items:center;gap:14px;padding:24px 0;border-top:1px solid rgba(124,79,196,.12);border-bottom:1px solid rgba(124,79,196,.12);margin:48px 0;flex-wrap:wrap}
+.interact-btn{display:flex;align-items:center;gap:7px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:none;border:1px solid rgba(124,79,196,.25);color:var(--plight);padding:9px 18px;cursor:none;transition:all .2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)}
+.interact-btn:hover{border-color:var(--purple);color:var(--white)}
+.interact-btn.liked{background:rgba(124,79,196,.2);border-color:var(--purple);color:var(--plight)}
+.interact-btn.bookmarked{background:rgba(240,192,96,.15);border-color:var(--gold);color:var(--gold)}
+.interact-btn svg{width:14px;height:14px;fill:currentColor}
+.share-btn{display:flex;align-items:center;gap:7px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:none;border:1px solid rgba(124,79,196,.25);color:var(--plight);padding:9px 18px;cursor:none;transition:all .2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);margin-left:auto}
+.share-btn:hover{border-color:var(--gold);color:var(--gold)}
+.share-btn svg{width:14px;height:14px;fill:currentColor}
+
+/* AUTHOR BOX */
+.author-box{display:flex;align-items:center;gap:24px;padding:32px;background:rgba(124,79,196,.06);border:1px solid rgba(124,79,196,.15);margin:48px 0}
+.author-pic{width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:top;border:2px solid rgba(124,79,196,.3);flex-shrink:0}
+.author-info-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;text-transform:uppercase;color:var(--white);margin-bottom:4px}
+.author-info-role{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+.author-info-bio{font-size:13px;font-weight:300;line-height:1.7;color:var(--muted)}
+
+/* RELATED POSTS */
+.related{margin-top:60px}
+.related-title{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;text-transform:uppercase;color:var(--white);margin-bottom:24px;letter-spacing:-.01em}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.related-card{background:rgba(11,8,22,.9);border:1px solid rgba(124,79,196,.14);padding:24px;cursor:none;transition:all .25s;text-decoration:none;display:block}
+.related-card:hover{border-color:rgba(180,140,240,.35);transform:translateY(-3px)}
+.related-card-tag{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.related-card-title{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;text-transform:uppercase;color:var(--white);line-height:1.1}
+
+/* SIDEBAR */
+.post-sidebar{display:flex;flex-direction:column;gap:28px}
+.sidebar-widget{background:rgba(18,14,34,.8);border:1px solid rgba(124,79,196,.14);padding:28px}
+.sidebar-widget-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.sidebar-widget-title::before{content:'';width:20px;height:1px;background:currentColor;opacity:.6}
+
+/* TOC */
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:4px}
+.toc-item a{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:.08em;color:var(--muted);text-decoration:none;transition:color .2s;cursor:none;display:block;padding:4px 0;border-left:2px solid transparent;padding-left:12px;transition:all .2s}
+.toc-item a:hover,.toc-item a.active{color:var(--gold);border-left-color:var(--gold)}
+
+/* COMMENTS SIDEBAR */
+.comments-list-side{display:flex;flex-direction:column;gap:16px;max-height:400px;overflow-y:auto}
+.comments-list-side::-webkit-scrollbar{width:2px}
+.comments-list-side::-webkit-scrollbar-thumb{background:var(--pdim)}
+.comment-side{display:flex;gap:10px}
+.comment-side-avatar{width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid rgba(124,79,196,.3);flex-shrink:0;background:var(--pdim)}
+.comment-side-body{}
+.comment-side-name{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--white);text-transform:uppercase}
+.comment-side-time{font-size:10px;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.comment-side-text{font-size:12px;font-weight:300;line-height:1.65;color:rgba(200,185,235,.75)}
+.comment-side-delete{font-size:10px;color:var(--red);background:none;border:none;cursor:none;opacity:0;transition:opacity .2s;font-family:'Barlow Condensed',sans-serif}
+.comment-side:hover .comment-side-delete{opacity:.6}
+.no-comments-side{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;text-align:center;padding:16px 0}
+.comment-input-side{display:flex;flex-direction:column;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(124,79,196,.1)}
+.comment-textarea-side{background:rgba(124,79,196,.08);border:1px solid rgba(124,79,196,.25);padding:10px 14px;font-family:'Barlow',sans-serif;font-size:12px;color:var(--white);outline:none;resize:none;height:68px;transition:border-color .2s;width:100%;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)}
+.comment-textarea-side:focus{border-color:var(--purple)}
+.comment-textarea-side::placeholder{color:var(--muted)}
+.comment-submit-side{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:9px 16px;background:var(--purple);border:none;color:var(--white);cursor:none;transition:background .2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);align-self:flex-end}
+.comment-submit-side:hover{background:#9b6fd4}
+.auth-prompt-side{font-size:12px;color:var(--muted);text-align:center;padding:8px 0}
+.auth-prompt-side a{color:var(--gold);cursor:none;text-decoration:none}
+
+/* STICKY SIDEBAR */
+.sidebar-sticky{position:sticky;top:90px;display:flex;flex-direction:column;gap:28px}
+
+/* PROGRESS READING */
+.reading-progress{height:3px;background:rgba(124,79,196,.12);position:relative;margin-bottom:4px;overflow:hidden}
+.reading-progress-fill{height:100%;background:linear-gradient(to right,var(--purple),var(--gold));width:0%;transition:width .2s}
+.reading-pct{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--plight);text-transform:uppercase}
+
+.btn{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:14px 30px;cursor:none;text-decoration:none;display:inline-block;transition:all .2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);border:none}
+.btn-primary{background:var(--gold);color:#0b0816}.btn-primary:hover{background:#f8d488}
+
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--pdim)}
+
+@media(max-width:960px){
+  nav{padding:16px 24px}.nav-links{display:none}
+  .post-hero{padding:100px 24px 48px}
+  .post-layout{grid-template-columns:1fr;padding:40px 24px 60px;gap:40px}
+  .post-sidebar{order:2}.sidebar-sticky{position:static}
+  .related-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+<div id="scroll-progress"></div>
+<div id="toast-container"></div>
+
+<!-- AUTH MODAL -->
+<div id="auth-modal">
+  <div class="auth-box">
+    <button class="auth-close" onclick="closeAuth()">×</button>
+    <div class="auth-title">Join in</div>
+    <div class="auth-sub">Sign in to like, comment and bookmark posts.</div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Sign In</button>
+      <button class="auth-tab" onclick="switchTab('register')">Register</button>
+    </div>
+    <div class="auth-form">
+      <button class="btn-google" onclick="signInGoogle()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-divider"><span>or</span></div>
+      <input class="auth-input" type="email" id="authEmail" placeholder="Email address">
+      <input class="auth-input" type="password" id="authPassword" placeholder="Password">
+      <input class="auth-input" type="text" id="authName" placeholder="Display name" style="display:none">
+      <button class="btn btn-primary" id="authSubmitBtn" onclick="handleEmailAuth()" style="width:100%">Sign In</button>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <a class="nav-logo" href="shiningsun_advanced.html">Shining <em>Sun</em></a>
+  <ul class="nav-links">
+    <li><a href="shiningsun_advanced.html">Portfolio</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="shiningsun_advanced.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right"><div id="navAuthSection"><button class="nav-auth-btn" onclick="openAuth()">Sign In</button></div></div>
+</nav>
+
+<!-- POST HERO -->
+<div class="post-hero">
+  <div class="post-hero-bg">
+    <img src="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-keybanner.jpg" alt="Post cover" id="postCoverImg">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(11,8,22,1) 0%,rgba(11,8,22,.5) 60%,rgba(11,8,22,.15) 100%)"></div>
+  </div>
+  <div class="post-hero-content">
+    <div class="post-breadcrumb">
+      <a href="blog.html">Blog</a>
+      <span>/</span>
+      <span id="postTagBreadcrumb">Design</span>
+    </div>
+    <div class="post-meta-row">
+      <span class="post-tag design" id="postTagBadge">Design</span>
+      <span class="post-date" id="postDate">Aug 14, 2025</span>
+      <span class="post-read" id="postRead">8 min read</span>
+    </div>
+    <h1 class="post-title" id="postTitle">Why Valorant has the best UI design in gaming</h1>
+    <p class="post-excerpt" id="postExcerpt">Riot's HUD is a masterclass in information hierarchy, contrast ratios, and micro-interaction. Here's what I stole from it.</p>
+  </div>
+</div>
+
+<!-- POST LAYOUT -->
+<div class="post-layout">
+
+  <!-- MAIN CONTENT -->
+  <div class="post-content">
+
+    <!-- INTERACT BAR -->
+    <div class="post-interact-bar">
+      <button class="interact-btn" onclick="toggleLike('featured-post',this)" id="like-btn">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span id="likeCount">0</span> Likes
+      </button>
+      <button class="interact-btn" onclick="toggleBookmark('featured-post',this)" id="bookmark-btn">
+        <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+        Bookmark
+      </button>
+      <button class="share-btn" onclick="sharePost()">
+        <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+        Share
+      </button>
+    </div>
+
+    <!-- ARTICLE -->
+    <article class="prose" id="postBody">
+      <p>When I first started getting serious about UI design, I did what most people do — I studied Dribbble shots, read Nielsen Norman articles, and obsessed over Material Design documentation. All useful. None of it hit different the way Valorant did.</p>
+
+      <h2>The HUD as a design system</h2>
+      <p>Riot didn't just make a game. They made a fully realized, internally consistent design system that happens to be interactive. Every element in Valorant's HUD obeys a set of invisible rules about <strong>hierarchy, contrast, and information density</strong> that I'd argue is more rigorous than most SaaS dashboards I've worked on.</p>
+      <p>Take the minimap. It communicates team position, objective status, spike location, and your own orientation — simultaneously — in a 200×200 pixel square. That's a design problem most product teams would spend a quarter arguing about.</p>
+
+      <blockquote>
+        <p>"Good design is as little design as possible." — Dieter Rams. Valorant's HUD is the most aggressive application of this principle I've ever seen in a real-time product.</p>
+      </blockquote>
+
+      <h2>What I stole: contrast ratios</h2>
+      <p>Valorant's colour palette looks vibrant and chaotic from a distance. Up close, it's ruthlessly calculated. Every agent colour is chosen to be immediately distinguishable against both light and dark backgrounds. The gold UI accents exist at a contrast ratio that passes WCAG AA even against the game's most washed-out environments.</p>
+      <p>I started applying this thinking to my own work. Instead of picking colours I liked, I'd ask: <em>does this read in low contrast? Does this read in high contrast? Does this read at 50% opacity?</em> That shift alone improved every interface I shipped in the following six months.</p>
+
+      <h2>Micro-interactions that earn their weight</h2>
+      <p>Every animation in Valorant's UI serves a function. The kill feed slides in from the right — directional, so your eye knows where to look. The round timer pulses when below ten seconds — urgency communicated without a sound. The shop highlights items you can afford — reducing cognitive load in a moment of high stress.</p>
+      <p>None of this is accidental. It's the result of a team that clearly ran every interaction through a filter: <strong>does this animation add information, or just noise?</strong></p>
+
+      <pre><code>// What I took away: animation should carry data
+const transition = {
+  enter: { x: 16, opacity: 0 },  // directional — tells you where it came from
+  center: { x: 0, opacity: 1 },
+  exit: { x: -16, opacity: 0 }   // exits same direction — consistent mental model
+};</code></pre>
+
+      <h2>Typography as information architecture</h2>
+      <p>Valorant uses a custom typeface (Tungsten) that was designed specifically for high-stress readability at small sizes on variable backgrounds. It's condensed, heavy, and geometric — perfect for a game UI. Most products can't commission a typeface, but the lesson still applies: <em>your font choice is an information architecture decision, not an aesthetic one.</em></p>
+      <p>I switched this portfolio to Barlow Condensed for exactly this reason. It communicates structure at a glance and gets out of the way when I need prose to breathe.</p>
+
+      <h2>The takeaway</h2>
+      <p>The best design education isn't always a course or a book. Sometimes it's playing a game with the intention of understanding <em>why</em> everything feels the way it does. Valorant taught me more about information hierarchy, motion design, and design systems than a lot of formal study did.</p>
+      <p>Next time you're in a match, alt-tab your designer brain on for a round. You'll see what I mean.</p>
+
+      <hr>
+      <p><em>If you found this useful, hit like or drop a comment below. Writing more on design systems and game UI next month.</em></p>
+    </article>
+
+    <!-- AUTHOR -->
+    <div class="author-box">
+      <img class="author-pic" src="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-chibi-face.png" alt="Shining Sun">
+      <div>
+        <div class="author-info-name">Shining Sun</div>
+        <div class="author-info-role">Creative Developer</div>
+        <div class="author-info-bio">Full-stack developer and UI/UX enthusiast. Building things that live between design and code. Clove main. Always a little extra.</div>
+      </div>
+    </div>
+
+    <!-- RELATED -->
+    <div class="related">
+      <div class="related-title">More posts</div>
+      <div class="related-grid">
+        <a href="post.html?post=post-1" class="related-card">
+          <div class="related-card-tag">Design</div>
+          <div class="related-card-title">Building a dark design system from scratch</div>
+        </a>
+        <a href="post.html?post=post-6" class="related-card">
+          <div class="related-card-tag">Design</div>
+          <div class="related-card-title">Micro-interactions that actually matter</div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="post-sidebar">
+    <div class="sidebar-sticky">
+
+      <!-- READING PROGRESS -->
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">Reading progress</div>
+        <div class="reading-progress"><div class="reading-progress-fill" id="readingFill"></div></div>
+        <div class="reading-pct" id="readingPct">0% read</div>
+      </div>
+
+      <!-- TOC -->
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">Contents</div>
+        <ul class="toc-list" id="tocList">
+          <li class="toc-item"><a href="#" data-target="h-0">The HUD as a design system</a></li>
+          <li class="toc-item"><a href="#" data-target="h-1">What I stole: contrast ratios</a></li>
+          <li class="toc-item"><a href="#" data-target="h-2">Micro-interactions</a></li>
+          <li class="toc-item"><a href="#" data-target="h-3">Typography as IA</a></li>
+          <li class="toc-item"><a href="#" data-target="h-4">The takeaway</a></li>
+        </ul>
+      </div>
+
+      <!-- COMMENTS SIDEBAR -->
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">Comments <span id="commentCountSide" style="color:var(--muted);font-size:11px">(0)</span></div>
+        <div class="comments-list-side" id="commentsListSide">
+          <div class="no-comments-side">No comments yet</div>
+        </div>
+        <div id="commentInputSide" class="comment-input-side">
+          <div class="auth-prompt-side">
+            <a href="#" onclick="openAuth();return false;">Sign in</a> to comment
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
+
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyC3I9An38y5mrrxKr5GEoxMGXSwt5FcFoA",
+  authDomain:"shiningsunweb.firebaseapp.com",
+  projectId:"shiningsunweb",
+  storageBucket:"shiningsunweb.firebasestorage.app",
+  messagingSenderId:"254759948344",
+  appId:"1:254759948344:web:24daa35b98f665624056cd",
+  measurementId:"G-TDRH309EXX"
+});
+firebase.analytics();
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+// Get post ID from URL param, default to featured-post
+const params = new URLSearchParams(window.location.search);
+const POST_ID = params.get('post') || 'featured-post';
+
+// Post data map
+const postData = {
+  'featured-post': { title:'Why Valorant has the best UI design in gaming', tag:'design', date:'Aug 14, 2025', read:'8 min read' },
+  'post-1': { title:'Building a dark design system from scratch', tag:'design', date:'Aug 20, 2025', read:'6 min read' },
+  'post-2': { title:'Real-time everything: WebSockets vs SSE in 2025', tag:'code', date:'Aug 12, 2025', read:'7 min read' },
+  'post-3': { title:'What Clove taught me about chaotic creativity', tag:'game', date:'Jul 30, 2025', read:'5 min read' },
+  'post-4': { title:'The 2AM developer: surviving late-night build sessions', tag:'life', date:'Jul 18, 2025', read:'4 min read' },
+  'post-5': { title:'GSAP vs Framer Motion: an honest 2025 comparison', tag:'code', date:'Jul 5, 2025', read:'9 min read' },
+  'post-6': { title:'Micro-interactions that actually matter', tag:'design', date:'Jun 22, 2025', read:'5 min read' },
+};
+
+// Update hero with correct post data
+const pd = postData[POST_ID] || postData['featured-post'];
+document.getElementById('postTitle').textContent = pd.title;
+document.getElementById('postDate').textContent = pd.date;
+document.getElementById('postRead').textContent = pd.read;
+document.getElementById('postTagBreadcrumb').textContent = pd.tag.charAt(0).toUpperCase() + pd.tag.slice(1);
+const tagBadge = document.getElementById('postTagBadge');
+tagBadge.textContent = pd.tag.charAt(0).toUpperCase() + pd.tag.slice(1);
+tagBadge.className = 'post-tag ' + pd.tag;
+document.title = pd.title + ' — Shining Sun';
+
+// CURSOR
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursor-trail');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+  setTimeout(() => { trail.style.left = e.clientX + 'px'; trail.style.top = e.clientY + 'px'; }, 80);
+});
+
+// SCROLL PROGRESS + READING PROGRESS
+window.addEventListener('scroll', () => {
+  const total = document.body.scrollHeight - window.innerHeight;
+  const pct = Math.round(window.scrollY / total * 100);
+  document.getElementById('scroll-progress').style.width = pct + '%';
+  document.getElementById('readingFill').style.width = pct + '%';
+  document.getElementById('readingPct').textContent = pct + '% read';
+  // TOC active state
+  const headings = document.querySelectorAll('.prose h2');
+  headings.forEach((h, i) => {
+    const rect = h.getBoundingClientRect();
+    if (rect.top < 120) {
+      document.querySelectorAll('.toc-item a').forEach(a => a.classList.remove('active'));
+      const tocLink = document.querySelector('.toc-item a[data-target="h-' + i + '"]');
+      if (tocLink) tocLink.classList.add('active');
+    }
+  });
+});
+
+// TOC smooth scroll
+document.querySelectorAll('.toc-item a').forEach((a, i) => {
+  a.href = '#';
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const headings = document.querySelectorAll('.prose h2');
+    if (headings[i]) headings[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// TOAST
+function toast(msg, type = 'info') {
+  const tc = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.innerHTML = '<div class="toast-dot"></div>' + msg;
+  tc.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 4000);
+}
+
+// AUTH
+let currentUser = null;
+let authTab = 'login';
+auth.onAuthStateChanged(user => {
+  currentUser = user;
+  updateNavAuth(user);
+  updateCommentInput();
+  if (user) loadUserInteractions(user.uid);
+});
+
+function updateNavAuth(user) {
+  const sec = document.getElementById('navAuthSection');
+  if (user) {
+    const avatar = user.photoURL || 'https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-chibi-face.png';
+    sec.innerHTML = `<div class="nav-user"><img class="nav-avatar" src="${avatar}"><span class="nav-username">${user.displayName||user.email.split('@')[0]}</span><button class="nav-signout" onclick="signOut()">Sign out</button></div>`;
+  } else {
+    sec.innerHTML = '<button class="nav-auth-btn" onclick="openAuth()">Sign In</button>';
+  }
+}
+
+function openAuth() { document.getElementById('auth-modal').classList.add('open'); }
+function closeAuth() { document.getElementById('auth-modal').classList.remove('open'); }
+document.getElementById('auth-modal').addEventListener('click', e => { if (e.target===e.currentTarget) closeAuth(); });
+
+function switchTab(tab) {
+  authTab = tab;
+  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active',(i===0&&tab==='login')||(i===1&&tab==='register')));
+  document.getElementById('authName').style.display = tab==='register'?'block':'none';
+  document.getElementById('authSubmitBtn').textContent = tab==='login'?'Sign In':'Create Account';
+}
+
+async function signInGoogle() {
+  try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); closeAuth(); toast('Signed in ✓','success'); }
+  catch(e) { toast(e.message,'error'); }
+}
+
+async function handleEmailAuth() {
+  const email = document.getElementById('authEmail').value;
+  const password = document.getElementById('authPassword').value;
+  const name = document.getElementById('authName').value;
+  if (!email||!password) { toast('Fill in email and password','error'); return; }
+  try {
+    if (authTab==='login') { await auth.signInWithEmailAndPassword(email,password); toast('Welcome back! ✓','success'); }
+    else {
+      if (!name) { toast('Enter a display name','error'); return; }
+      const c = await auth.createUserWithEmailAndPassword(email,password);
+      await c.user.updateProfile({displayName:name});
+      toast('Account created! ✓','success');
+    }
+    closeAuth();
+  } catch(e) { toast(e.message,'error'); }
+}
+
+async function signOut() { await auth.signOut(); toast('Signed out','info'); }
+
+// LIKES
+async function toggleLike(postId, btn) {
+  if (!currentUser) { openAuth(); toast('Sign in to like','info'); return; }
+  const ref = db.collection('posts').doc(postId).collection('likes').doc(currentUser.uid);
+  const snap = await ref.get();
+  const postRef = db.collection('posts').doc(postId);
+  if (snap.exists) {
+    await ref.delete();
+    await postRef.set({likes:firebase.firestore.FieldValue.increment(-1)},{merge:true});
+    btn.classList.remove('liked'); toast('Like removed','info');
+  } else {
+    await ref.set({uid:currentUser.uid,timestamp:firebase.firestore.FieldValue.serverTimestamp()});
+    await postRef.set({likes:firebase.firestore.FieldValue.increment(1)},{merge:true});
+    btn.classList.add('liked'); toast('Liked! 💜','success');
+  }
+}
+
+// BOOKMARKS
+async function toggleBookmark(postId, btn) {
+  if (!currentUser) { openAuth(); toast('Sign in to bookmark','info'); return; }
+  const ref = db.collection('users').doc(currentUser.uid).collection('bookmarks').doc(postId);
+  const snap = await ref.get();
+  if (snap.exists) {
+    await ref.delete(); btn.classList.remove('bookmarked'); toast('Bookmark removed','info');
+  } else {
+    await ref.set({postId,timestamp:firebase.firestore.FieldValue.serverTimestamp()});
+    btn.classList.add('bookmarked'); toast('Bookmarked! 🔖','success');
+  }
+}
+
+async function loadUserInteractions(uid) {
+  const likeSnap = await db.collection('posts').doc(POST_ID).collection('likes').doc(uid).get();
+  if (likeSnap.exists) document.getElementById('like-btn').classList.add('liked');
+  const bmSnap = await db.collection('users').doc(uid).collection('bookmarks').doc(POST_ID).get();
+  if (bmSnap.exists) document.getElementById('bookmark-btn').classList.add('bookmarked');
+}
+
+// LIVE LIKE COUNT
+db.collection('posts').doc(POST_ID).onSnapshot(snap => {
+  const data = snap.data();
+  document.getElementById('likeCount').textContent = (data&&data.likes)||0;
+});
+
+// COMMENTS
+function updateCommentInput() {
+  const wrap = document.getElementById('commentInputSide');
+  if (currentUser) {
+    wrap.innerHTML = `
+      <textarea class="comment-textarea-side" id="commentTextSide" placeholder="Leave a comment..."></textarea>
+      <button class="comment-submit-side" onclick="submitComment()">Post comment</button>`;
+  } else {
+    wrap.innerHTML = `<div class="auth-prompt-side"><a href="#" onclick="openAuth();return false;">Sign in</a> to comment</div>`;
+  }
+}
+
+db.collection('posts').doc(POST_ID).collection('comments')
+  .orderBy('timestamp','asc')
+  .onSnapshot(snap => {
+    document.getElementById('commentCountSide').textContent = '(' + snap.size + ')';
+    const list = document.getElementById('commentsListSide');
+    if (snap.empty) { list.innerHTML = '<div class="no-comments-side">No comments yet — be the first!</div>'; return; }
+    list.innerHTML = '';
+    snap.forEach(doc => {
+      const d = doc.data();
+      const isOwn = currentUser && d.uid === currentUser.uid;
+      const time = d.timestamp ? new Date(d.timestamp.seconds*1000).toLocaleDateString('en-GB',{day:'numeric',month:'short'}) : 'just now';
+      const div = document.createElement('div');
+      div.className = 'comment-side';
+      div.innerHTML = `
+        <img class="comment-side-avatar" src="${d.avatar||'https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-chibi-face.png'}" alt="">
+        <div class="comment-side-body">
+          <div style="display:flex;align-items:baseline;gap:8px;justify-content:space-between">
+            <span class="comment-side-name">${d.name}</span>
+            ${isOwn?`<button class="comment-side-delete" onclick="deleteComment('${doc.id}')">×</button>`:''}
+          </div>
+          <span class="comment-side-time">${time}</span>
+          <div class="comment-side-text">${d.text}</div>
+        </div>`;
+      list.appendChild(div);
+    });
+    list.scrollTop = list.scrollHeight;
+  });
+
+async function submitComment() {
+  if (!currentUser) { openAuth(); return; }
+  const input = document.getElementById('commentTextSide');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  try {
+    await db.collection('posts').doc(POST_ID).collection('comments').add({
+      uid: currentUser.uid,
+      name: currentUser.displayName||currentUser.email.split('@')[0],
+      avatar: currentUser.photoURL||'',
+      text,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    toast('Comment posted! 💬','success');
+  } catch(e) { toast('Could not post comment','error'); }
+}
+
+async function deleteComment(commentId) {
+  await db.collection('posts').doc(POST_ID).collection('comments').doc(commentId).delete();
+  toast('Deleted','info');
+}
+
+function sharePost() {
+  if (navigator.share) {
+    navigator.share({ title: pd.title, url: window.location.href });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    toast('Link copied to clipboard! 🔗','success');
+  }
+}
+</script>
+</body>
+</html>
