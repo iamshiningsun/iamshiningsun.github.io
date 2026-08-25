@@ -3,54 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shining Sun — Blog</title>
+<title>Blog — Shining Sun</title>
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300;1,400&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0b0816;--bg2:#120e22;
-  --purple:#7c4fc4;--pdim:#3d2770;--plight:#b8a0e8;
-  --lav:#cdbef5;--gold:#f0c060;--gdim:#b8893a;
-  --white:#ede8f8;--muted:rgba(200,185,235,0.55);
-  --green:#7fff6a;--discord:#5865F2;--red:#ff5f5f;
-}
+:root{--bg:#0b0816;--bg2:#120e22;--purple:#7c4fc4;--pdim:#3d2770;--plight:#b8a0e8;--lav:#cdbef5;--gold:#f0c060;--gdim:#b8893a;--white:#ede8f8;--muted:rgba(200,185,235,0.55);--green:#7fff6a;--red:#ff5f5f}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;cursor:none}
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(100,60,180,0.022) 3px,rgba(100,60,180,0.022) 4px);pointer-events:none;z-index:998}
-
-/* CURSOR */
-#cursor{position:fixed;width:12px;height:12px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,background .2s;mix-blend-mode:difference}
+#cursor{position:fixed;width:12px;height:12px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference}
 #cursor-trail{position:fixed;width:36px;height:36px;border:1px solid rgba(180,140,240,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .12s ease,top .12s ease}
-
-/* SCROLL PROGRESS */
 #scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(to right,var(--purple),var(--gold));z-index:9997;width:0%}
-
-/* LOADER */
-#loader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity .6s ease}
-#loader.done{opacity:0;pointer-events:none}
-.loader-name{font-family:'Barlow Condensed',sans-serif;font-size:clamp(28px,5vw,56px);font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:var(--white)}
-.loader-name em{font-style:normal;color:var(--gold)}
-.loader-bar-wrap{width:200px;height:2px;background:rgba(124,79,196,.2)}
-.loader-bar{height:100%;background:linear-gradient(to right,var(--purple),var(--gold));width:0%;transition:width .05s linear}
-.loader-status{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.3em;color:var(--plight);text-transform:uppercase;opacity:.7}
-
-/* TOAST */
 #toast-container{position:fixed;bottom:32px;right:32px;z-index:9996;display:flex;flex-direction:column;gap:10px}
 .toast{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;padding:14px 20px;border:1px solid rgba(124,79,196,.4);background:rgba(18,14,34,.95);color:var(--white);backdrop-filter:blur(8px);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);display:flex;align-items:center;gap:10px;transform:translateX(120%);transition:transform .35s cubic-bezier(.16,1,.3,1)}
-.toast.show{transform:translateX(0)}
-.toast.success{border-color:rgba(127,255,106,.4)}
-.toast.error{border-color:rgba(255,80,80,.4)}
-.toast-dot{width:6px;height:6px;border-radius:50%;background:var(--plight);flex-shrink:0}
-.toast.success .toast-dot{background:var(--green)}
-.toast.error .toast-dot{background:#ff5050}
+.toast.show{transform:translateX(0)}.toast.success{border-color:rgba(127,255,106,.4)}.toast.error{border-color:rgba(255,80,80,.4)}
+.toast-dot{width:6px;height:6px;border-radius:50%;background:var(--plight);flex-shrink:0}.toast.success .toast-dot{background:var(--green)}.toast.error .toast-dot{background:#ff5050}
 
 /* AUTH MODAL */
 #auth-modal{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;background:rgba(11,8,22,.85);backdrop-filter:blur(8px)}
 #auth-modal.open{display:flex}
 .auth-box{background:var(--bg2);border:1px solid rgba(124,79,196,.3);padding:48px 40px;width:100%;max-width:420px;position:relative}
-.auth-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--plight);font-size:20px;cursor:none;opacity:.6;transition:opacity .2s}
-.auth-close:hover{opacity:1}
+.auth-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--plight);font-size:20px;cursor:none;opacity:.6}
 .auth-title{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;text-transform:uppercase;color:var(--white);margin-bottom:6px}
 .auth-sub{font-size:13px;color:var(--muted);margin-bottom:32px;line-height:1.6}
 .auth-tabs{display:flex;gap:2px;margin-bottom:28px}
@@ -58,14 +32,43 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .auth-tab.active{background:var(--purple);color:var(--white);border-color:var(--purple)}
 .auth-form{display:flex;flex-direction:column;gap:14px}
 .auth-input{background:rgba(124,79,196,.08);border:1px solid rgba(124,79,196,.25);padding:12px 16px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--white);outline:none;transition:border-color .2s;width:100%;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
-.auth-input:focus{border-color:var(--purple)}
-.auth-input::placeholder{color:var(--muted)}
-.auth-divider{display:flex;align-items:center;gap:12px;margin:4px 0}
+.auth-input:focus{border-color:var(--purple)}.auth-input::placeholder{color:var(--muted)}
+.auth-divider{display:flex;align-items:center;gap:12px}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:rgba(124,79,196,.2)}
 .auth-divider span{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
-.btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:none;transition:background .2s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
-.btn-google:hover{background:rgba(255,255,255,.12)}
+.btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:none;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
 .btn-google svg{width:18px;height:18px;flex-shrink:0}
+
+/* NEW POST MODAL */
+#post-modal{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;background:rgba(11,8,22,.9);backdrop-filter:blur(10px)}
+#post-modal.open{display:flex}
+.post-modal-box{background:var(--bg2);border:1px solid rgba(124,79,196,.3);padding:48px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;position:relative}
+.post-modal-box::-webkit-scrollbar{width:3px}.post-modal-box::-webkit-scrollbar-thumb{background:var(--pdim)}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;text-transform:uppercase;color:var(--white);margin-bottom:28px;display:flex;align-items:center;gap:12px}
+.modal-close{position:absolute;top:20px;right:20px;background:none;border:none;color:var(--plight);font-size:22px;cursor:none;opacity:.6}
+.form-field{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.form-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.25em;color:var(--gold);text-transform:uppercase}
+.form-input{background:rgba(124,79,196,.08);border:1px solid rgba(124,79,196,.25);padding:12px 16px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--white);outline:none;transition:border-color .2s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
+.form-input:focus{border-color:var(--purple)}.form-input::placeholder{color:var(--muted)}
+.form-select{background:rgba(124,79,196,.08);border:1px solid rgba(124,79,196,.25);padding:12px 16px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--white);outline:none;width:100%;cursor:none}
+.form-select option{background:var(--bg2)}
+.form-textarea{background:rgba(124,79,196,.08);border:1px solid rgba(124,79,196,.25);padding:12px 16px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--white);outline:none;resize:vertical;min-height:200px;width:100%;transition:border-color .2s;line-height:1.7}
+.form-textarea:focus{border-color:var(--purple)}.form-textarea::placeholder{color:var(--muted)}
+.form-hint{font-size:11px;color:var(--muted);line-height:1.5}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.modal-actions{display:flex;gap:12px;margin-top:24px;justify-content:flex-end}
+
+/* ADMIN TOOLBAR */
+#admin-toolbar{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:300;display:none;align-items:center;gap:10px;background:rgba(18,14,34,.95);border:1px solid rgba(124,79,196,.3);padding:12px 20px;backdrop-filter:blur(8px);clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)}
+#admin-toolbar.visible{display:flex}
+.admin-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.admin-label::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.admin-btn{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:8px 16px;border:1px solid rgba(124,79,196,.3);background:rgba(124,79,196,.12);color:var(--plight);cursor:none;transition:all .2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);display:flex;align-items:center;gap:6px}
+.admin-btn:hover{background:rgba(124,79,196,.25);border-color:var(--purple);color:var(--white)}
+.admin-btn svg{width:12px;height:12px;fill:currentColor}
+.admin-btn.danger{border-color:rgba(255,95,95,.3);color:var(--red)}
+.admin-btn.danger:hover{background:rgba(255,95,95,.15);border-color:var(--red)}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:20px 52px;background:linear-gradient(to bottom,rgba(11,8,22,0.96),transparent);backdrop-filter:blur(3px)}
@@ -77,13 +80,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .nav-right{display:flex;align-items:center;gap:14px}
 .nav-auth-btn{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:8px 18px;background:transparent;border:1px solid rgba(124,79,196,.4);color:var(--plight);cursor:none;transition:all .2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)}
 .nav-auth-btn:hover{border-color:var(--gold);color:var(--gold)}
-.nav-user{display:flex;align-items:center;gap:10px;cursor:none}
-.nav-avatar{width:32px;height:32px;border-radius:50%;border:2px solid rgba(124,79,196,.5);object-fit:cover;background:var(--pdim)}
+.nav-user{display:flex;align-items:center;gap:10px}
+.nav-avatar{width:32px;height:32px;border-radius:50%;border:2px solid rgba(124,79,196,.5);object-fit:cover}
 .nav-username{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--plight);text-transform:uppercase}
-.nav-signout{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:.15em;color:var(--muted);background:none;border:none;cursor:none;text-transform:uppercase;transition:color .2s}
+.nav-signout{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:.15em;color:var(--muted);background:none;border:none;cursor:none;text-transform:uppercase}
 .nav-signout:hover{color:var(--red)}
 
-/* HUD CORNERS */
+/* HUD */
 .hc{position:absolute;width:48px;height:48px}
 .hc::before,.hc::after{content:'';position:absolute;background:var(--gold);opacity:.45}
 .hc.tl{top:86px;left:52px}.hc.tl::before{top:0;left:0;width:2px;height:20px}.hc.tl::after{top:0;left:0;width:20px;height:2px}
@@ -97,7 +100,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 
 /* BLOG HERO */
 .blog-hero{position:relative;min-height:70vh;display:flex;align-items:center;overflow:hidden;padding:140px 72px 80px}
-.blog-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 75% 50%,rgba(124,79,196,.28) 0%,transparent 65%),radial-gradient(ellipse 40% 50% at 15% 60%,rgba(70,35,150,.15) 0%,transparent 55%),linear-gradient(148deg,#180e2e 0%,#0b0816 55%,#09071a 100%);z-index:0}
+.blog-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 75% 50%,rgba(124,79,196,.28) 0%,transparent 62%),radial-gradient(ellipse 40% 50% at 15% 60%,rgba(70,35,150,.15) 0%,transparent 55%),linear-gradient(148deg,#180e2e 0%,#0b0816 55%,#09071a 100%);z-index:0}
 .ring{position:absolute;border-radius:50%;border:1px solid rgba(180,140,240,.09);animation:breathe 7s ease-in-out infinite}
 .ring:nth-child(1){width:500px;height:500px;right:-80px;top:-60px}
 .ring:nth-child(2){width:320px;height:320px;right:30px;top:50px;animation-delay:2s;border-color:rgba(180,140,240,.055)}
@@ -109,14 +112,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .blog-hero-title .outline{display:block;-webkit-text-stroke:1.5px var(--plight);color:transparent}
 .blog-hero-sub{font-size:15px;font-weight:300;line-height:1.75;color:var(--muted);max-width:500px;margin-bottom:36px}
 .search-wrap{display:flex;align-items:center;max-width:480px;border:1px solid rgba(124,79,196,.35);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);overflow:hidden}
-.search-wrap input{flex:1;background:rgba(124,79,196,.08);border:none;outline:none;padding:14px 20px;font-family:'Barlow',sans-serif;font-size:14px;font-weight:300;color:var(--white);letter-spacing:.03em}
+.search-wrap input{flex:1;background:rgba(124,79,196,.08);border:none;outline:none;padding:14px 20px;font-family:'Barlow',sans-serif;font-size:14px;font-weight:300;color:var(--white)}
 .search-wrap input::placeholder{color:var(--muted)}
 .search-wrap button{background:var(--gold);border:none;cursor:none;padding:14px 20px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#0b0816;transition:background .2s}
 .search-wrap button:hover{background:#f8d488}
 .blog-hero-char{position:absolute;right:-20px;bottom:0;height:88%;max-height:540px;object-fit:contain;object-position:bottom right;mix-blend-mode:screen;filter:drop-shadow(0 0 50px rgba(124,79,196,.65)) drop-shadow(0 0 100px rgba(90,50,180,.35)) brightness(1.05);animation:floatY 7s ease-in-out infinite;z-index:1}
 @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 
-/* CATEGORY FILTER */
+/* CATEGORIES */
 .categories{padding:36px 72px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid rgba(124,79,196,.12)}
 .cat-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.3em;color:var(--pdim);text-transform:uppercase;margin-right:8px}
 .cat-btn{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:7px 16px;background:transparent;border:1px solid rgba(124,79,196,.3);color:var(--plight);cursor:none;transition:all .2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)}
@@ -125,9 +128,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 /* SECTION HELPERS */
 .section-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:28px}
 .section-eyebrow::before{content:'';width:36px;height:1px;background:currentColor;opacity:.6}
-.btn{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:14px 30px;cursor:none;text-decoration:none;display:inline-block;transition:all .2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);border:none}
+.btn{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:14px 30px;cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);border:none}
 .btn-primary{background:var(--gold);color:#0b0816}.btn-primary:hover{background:#f8d488}
 .btn-ghost{background:transparent;color:var(--lav);border:1px solid var(--pdim)}.btn-ghost:hover{border-color:var(--lav);color:var(--white)}
+.btn svg{width:14px;height:14px;fill:currentColor}
 
 /* POST TAGS */
 .post-tag{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:5px 12px;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)}
@@ -135,24 +139,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .post-tag.code{background:rgba(240,192,96,.15);color:var(--gold)}
 .post-tag.life{background:rgba(78,159,212,.15);color:#7ec8e3}
 .post-tag.game{background:rgba(212,95,155,.15);color:#f0a0c8}
-.post-date{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase}
-.post-read{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase}
+.post-date,.post-read{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase}
 
-/* FEATURED POST */
+/* FEATURED */
 .featured{padding:60px 72px 0}
-.featured-card{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(124,79,196,.2);overflow:hidden;background:rgba(18,14,34,.8);transition:border-color .3s}
+.featured-card{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(124,79,196,.2);overflow:hidden;background:rgba(18,14,34,.8);transition:border-color .3s;position:relative}
 .featured-card:hover{border-color:rgba(180,140,240,.4)}
 .featured-img{position:relative;overflow:hidden;min-height:380px}
 .featured-img img{width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:brightness(.75) saturate(1.15);transition:transform .6s ease}
 .featured-card:hover .featured-img img{transform:scale(1.04)}
 .featured-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,transparent 55%,rgba(18,14,34,.9) 100%)}
-.featured-body{padding:52px 48px;display:flex;flex-direction:column;justify-content:center}
+.featured-body{padding:52px 48px;display:flex;flex-direction:column;justify-content:center;position:relative}
 .featured-meta{display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap}
 .featured-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(26px,3.5vw,44px);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;color:var(--white);line-height:1;margin-bottom:14px}
-.featured-excerpt{font-size:14px;font-weight:300;line-height:1.8;color:var(--muted);margin-bottom:24px}
+.featured-excerpt{font-size:14px;font-weight:300;line-height:1.8;color:var(--muted);margin-bottom:24px;flex:1}
 
-/* POST INTERACTIONS */
-.post-interactions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+/* ADMIN BADGE ON CARDS */
+.admin-card-actions{position:absolute;top:12px;right:12px;display:none;gap:6px}
+.admin-card-actions.visible{display:flex}
+.admin-card-btn{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:5px 10px;border:1px solid rgba(124,79,196,.4);background:rgba(11,8,22,.9);color:var(--plight);cursor:none;transition:all .2s;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%)}
+.admin-card-btn:hover{background:rgba(124,79,196,.2)}
+.admin-card-btn.del{border-color:rgba(255,95,95,.3);color:var(--red)}
+.admin-card-btn.del:hover{background:rgba(255,95,95,.15)}
+
+/* INTERACTIONS */
+.post-interactions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
 .interact-btn{display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:none;border:1px solid rgba(124,79,196,.25);color:var(--plight);padding:7px 14px;cursor:none;transition:all .2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)}
 .interact-btn:hover{border-color:var(--purple);color:var(--white)}
 .interact-btn.liked{background:rgba(124,79,196,.2);border-color:var(--purple);color:var(--plight)}
@@ -162,7 +173,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .read-link:hover{gap:16px}
 .read-link::after{content:'→';font-size:16px}
 
-/* UPSIDE DOWN BANNER */
+/* BANNER DIVIDER */
 .banner-divider{position:relative;width:100%;overflow:hidden;height:300px;margin:60px 0 0}
 .banner-divider img{width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:brightness(.6) saturate(1.2)}
 .banner-divider-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(11,8,22,.92) 0%,rgba(11,8,22,.25) 50%,rgba(11,8,22,.85) 100%);display:flex;align-items:center;justify-content:center}
@@ -176,28 +187,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .blog-card{background:rgba(11,8,22,.92);border:1px solid rgba(124,79,196,.14);overflow:hidden;position:relative;cursor:none;transition:all .3s;display:flex;flex-direction:column}
 .blog-card:hover{border-color:rgba(180,140,240,.38);transform:translateY(-4px)}
 .blog-card-img{width:100%;height:200px;overflow:hidden;flex-shrink:0;position:relative}
-.blog-card-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.7) saturate(1.1);transition:transform .5s ease}
-.blog-card:hover .blog-card-img img{transform:scale(1.06)}
 .blog-card-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:42px}
-.blog-card:nth-child(1) .blog-card-placeholder{background:linear-gradient(135deg,#1a0d30,#3d2270)}
-.blog-card:nth-child(2) .blog-card-placeholder{background:linear-gradient(135deg,#1a1008,#3d2e08)}
-.blog-card:nth-child(3) .blog-card-placeholder{background:linear-gradient(135deg,#08121a,#082a3d)}
-.blog-card:nth-child(4) .blog-card-placeholder{background:linear-gradient(135deg,#1a0818,#3d0830)}
-.blog-card:nth-child(5) .blog-card-placeholder{background:linear-gradient(135deg,#0d1a08,#1e3d10)}
-.blog-card:nth-child(6) .blog-card-placeholder{background:linear-gradient(135deg,#1a0d30,#4a1270)}
 .blog-card-body{padding:26px 24px 28px;display:flex;flex-direction:column;flex:1}
 .blog-card-meta{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
 .blog-card-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--white);line-height:1.1;margin-bottom:10px}
 .blog-card-excerpt{font-size:13px;font-weight:300;line-height:1.7;color:var(--muted);flex:1;margin-bottom:16px}
 .blog-card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid rgba(124,79,196,.1);flex-wrap:wrap;gap:8px}
 .blog-card-interact{display:flex;gap:8px}
-.mini-interact{display:flex;align-items:center;gap:4px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--plight);background:none;border:none;cursor:none;transition:color .2s;padding:0}
-.mini-interact:hover{color:var(--gold)}
-.mini-interact.liked{color:var(--purple)}
-.mini-interact.bookmarked{color:var(--gold)}
+.mini-interact{display:flex;align-items:center;gap:4px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--plight);background:none;border:none;cursor:none;transition:color .2s}
+.mini-interact:hover{color:var(--gold)}.mini-interact.liked{color:var(--purple)}.mini-interact.bookmarked{color:var(--gold)}
 .mini-interact svg{width:13px;height:13px;fill:currentColor}
 .card-read-link{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--plight);text-decoration:none;transition:color .2s;cursor:none}
 .card-read-link:hover{color:var(--gold)}
+
+/* EMPTY STATE */
+.blog-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px;gap:16px;text-align:center;grid-column:1/-1}
+.blog-empty-icon{font-size:48px;opacity:.3}
+.blog-empty-title{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:900;text-transform:uppercase;color:var(--white);opacity:.5}
+.blog-empty-sub{font-size:13px;color:var(--muted)}
 
 /* COMMENTS MODAL */
 #comments-modal{position:fixed;inset:0;z-index:4000;display:none;align-items:center;justify-content:center;background:rgba(11,8,22,.85);backdrop-filter:blur(8px)}
@@ -205,36 +212,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .comments-box{background:var(--bg2);border:1px solid rgba(124,79,196,.3);width:100%;max-width:600px;max-height:85vh;display:flex;flex-direction:column;position:relative}
 .comments-header{padding:28px 32px 20px;border-bottom:1px solid rgba(124,79,196,.12);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .comments-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;text-transform:uppercase;color:var(--white)}
-.comments-close{background:none;border:none;color:var(--plight);font-size:22px;cursor:none;opacity:.6;transition:opacity .2s}
-.comments-close:hover{opacity:1}
+.comments-close{background:none;border:none;color:var(--plight);font-size:22px;cursor:none;opacity:.6}
 .comments-list{flex:1;overflow-y:auto;padding:24px 32px;display:flex;flex-direction:column;gap:20px}
-.comments-list::-webkit-scrollbar{width:3px}
-.comments-list::-webkit-scrollbar-thumb{background:var(--pdim)}
+.comments-list::-webkit-scrollbar{width:3px}.comments-list::-webkit-scrollbar-thumb{background:var(--pdim)}
 .comment{display:flex;gap:14px}
 .comment-avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid rgba(124,79,196,.3);flex-shrink:0;background:var(--pdim)}
 .comment-body{flex:1}
-.comment-meta{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.comment-meta{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;flex-wrap:wrap}
 .comment-name{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--white);text-transform:uppercase}
-.comment-time{font-size:11px;color:var(--muted);letter-spacing:.05em}
+.comment-time{font-size:11px;color:var(--muted)}
 .comment-text{font-size:13px;font-weight:300;line-height:1.7;color:rgba(200,185,235,.8)}
 .comment-delete{background:none;border:none;color:var(--red);font-size:11px;cursor:none;opacity:0;transition:opacity .2s;margin-left:auto;font-family:'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase}
-.comment:hover .comment-delete{opacity:.6}
-.comment-delete:hover{opacity:1}
+.comment:hover .comment-delete{opacity:.6}.comment-delete:hover{opacity:1}
 .comments-input-wrap{padding:20px 32px 28px;border-top:1px solid rgba(124,79,196,.12);flex-shrink:0}
 .comments-input-row{display:flex;gap:10px;align-items:flex-end}
 .comment-input{flex:1;background:rgba(124,79,196,.08);border:1px solid rgba(124,79,196,.25);padding:12px 16px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--white);outline:none;resize:none;height:80px;transition:border-color .2s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
-.comment-input:focus{border-color:var(--purple)}
-.comment-input::placeholder{color:var(--muted)}
+.comment-input:focus{border-color:var(--purple)}.comment-input::placeholder{color:var(--muted)}
 .comment-submit{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:12px 20px;background:var(--purple);border:none;color:var(--white);cursor:none;transition:background .2s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);white-space:nowrap;flex-shrink:0;align-self:flex-end}
 .comment-submit:hover{background:#9b6fd4}
+.no-comments{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:.1em;color:var(--muted);text-align:center;padding:32px;text-transform:uppercase}
 .auth-prompt{font-size:13px;color:var(--muted);text-align:center;padding:12px}
 .auth-prompt a{color:var(--gold);cursor:none;text-decoration:none}
-.no-comments{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:.1em;color:var(--muted);text-align:center;padding:32px;text-transform:uppercase}
 
-/* 3D CLOVE CTA SECTION */
+/* CTA SECTION */
 .cta-section{padding:100px 72px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;border-top:1px solid rgba(124,79,196,.12);position:relative;overflow:hidden}
-.cta-section::before{content:'';position:absolute;left:-100px;top:50%;transform:translateY(-50%);width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(124,79,196,.1),transparent 70%);pointer-events:none}
-.cta-char{width:100%;max-width:380px;display:block;margin:0 auto;filter:drop-shadow(0 0 40px rgba(124,79,196,.5)) drop-shadow(0 0 80px rgba(90,50,180,.3));animation:floatY 6s ease-in-out infinite}
+.cta-char{width:100%;max-width:380px;display:block;margin:0 auto;filter:drop-shadow(0 0 40px rgba(124,79,196,.5));animation:floatY 6s ease-in-out infinite}
 .cta-text h2{font-family:'Barlow Condensed',sans-serif;font-size:clamp(36px,5vw,62px);font-weight:900;text-transform:uppercase;color:var(--white);line-height:.9;letter-spacing:-.01em;margin-bottom:16px}
 .cta-text h2 .gold{color:var(--gold)}
 .cta-text h2 .outline{-webkit-text-stroke:1.5px var(--plight);color:transparent;display:block}
@@ -242,18 +244,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .cta-btns{display:flex;gap:12px;flex-wrap:wrap}
 
 /* NEWSLETTER */
-.newsletter{padding:90px 72px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;border-top:1px solid rgba(124,79,196,.12);position:relative;overflow:hidden}
+.newsletter{padding:90px 72px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;border-top:1px solid rgba(124,79,196,.12)}
 .newsletter-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(36px,5vw,60px);font-weight:900;text-transform:uppercase;color:var(--white);line-height:.9;letter-spacing:-.01em;margin-bottom:16px}
 .newsletter-title .gold{color:var(--gold)}
 .newsletter-title .outline{-webkit-text-stroke:1.5px var(--plight);color:transparent;display:block}
 .newsletter-sub{font-size:14px;font-weight:300;line-height:1.8;color:var(--muted)}
 .newsletter-form{display:flex;flex-direction:column;gap:14px}
-.newsletter-form input{background:rgba(124,79,196,.08);border:1px solid rgba(124,79,196,.3);padding:16px 20px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--white);outline:none;transition:border-color .2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
-.newsletter-form input:focus{border-color:var(--purple)}
-.newsletter-form input::placeholder{color:var(--muted)}
-.newsletter-note{font-size:11px;color:var(--muted);letter-spacing:.05em}
+.newsletter-form input{background:rgba(124,79,196,.08);border:1px solid rgba(124,79,196,.3);padding:16px 20px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--white);outline:none;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.newsletter-form input:focus{border-color:var(--purple)}.newsletter-form input::placeholder{color:var(--muted)}
+.newsletter-note{font-size:11px;color:var(--muted)}
 
-/* FOOTER */
+/* SKELETON */
+.skeleton{background:linear-gradient(90deg,rgba(124,79,196,.08) 25%,rgba(124,79,196,.16) 50%,rgba(124,79,196,.08) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
 footer{padding:36px 72px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(124,79,196,.12)}
 .footer-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--pdim)}
 .footer-name em{font-style:normal;color:var(--gdim)}
@@ -261,34 +265,31 @@ footer{padding:36px 72px;display:flex;align-items:center;justify-content:space-b
 .footer-links{display:flex;gap:24px;list-style:none}
 .footer-links a{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:.15em;color:var(--pdim);text-decoration:none;text-transform:uppercase;transition:color .2s;cursor:none}
 .footer-links a:hover{color:var(--plight)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--pdim)}
 
-/* SKELETON */
-.skeleton{background:linear-gradient(90deg,rgba(124,79,196,.08) 25%,rgba(124,79,196,.16) 50%,rgba(124,79,196,.08) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* PLACEHOLDER COLORS */
+.blog-card:nth-child(1) .blog-card-placeholder{background:linear-gradient(135deg,#1a0d30,#3d2270)}
+.blog-card:nth-child(2) .blog-card-placeholder{background:linear-gradient(135deg,#1a1008,#3d2e08)}
+.blog-card:nth-child(3) .blog-card-placeholder{background:linear-gradient(135deg,#08121a,#082a3d)}
+.blog-card:nth-child(4) .blog-card-placeholder{background:linear-gradient(135deg,#1a0818,#3d0830)}
+.blog-card:nth-child(5) .blog-card-placeholder{background:linear-gradient(135deg,#0d1a08,#1e3d10)}
+.blog-card:nth-child(6) .blog-card-placeholder{background:linear-gradient(135deg,#1a0d30,#4a1270)}
 
 @media(max-width:960px){
   nav{padding:16px 24px}.nav-links{display:none}
   .blog-hero{padding:120px 24px 60px}.blog-hero-char{display:none}
-  .categories{padding:24px 24px}
-  .featured{padding:40px 24px 0}.featured-card{grid-template-columns:1fr}.featured-img{min-height:220px}.featured-img::after{background:linear-gradient(to bottom,transparent 55%,rgba(18,14,34,.95) 100%)}.featured-body{padding:28px 24px}
+  .categories{padding:24px}
+  .featured{padding:40px 24px 0}.featured-card{grid-template-columns:1fr}.featured-img{min-height:220px}.featured-body{padding:28px 24px}
   .blog-grid-section{padding:40px 24px 60px}.blog-grid{grid-template-columns:1fr}
   .cta-section{grid-template-columns:1fr;padding:60px 24px;gap:32px}
   .newsletter{grid-template-columns:1fr;padding:60px 24px;gap:36px}
   footer{padding:28px 24px;flex-wrap:wrap;gap:12px}
-  .comments-box{max-width:95vw;max-height:90vh}
+  #admin-toolbar{width:90%;left:5%;transform:none;flex-wrap:wrap;justify-content:center}
 }
 </style>
 </head>
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="loader-name">The <em>Blog</em></div>
-  <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
-  <div class="loader-status" id="loaderStatus">Loading...</div>
-</div>
-
-<!-- CURSOR -->
 <div id="cursor"></div>
 <div id="cursor-trail"></div>
 <div id="scroll-progress"></div>
@@ -299,7 +300,7 @@ footer{padding:36px 72px;display:flex;align-items:center;justify-content:space-b
   <div class="auth-box">
     <button class="auth-close" onclick="closeAuth()">×</button>
     <div class="auth-title">Join in</div>
-    <div class="auth-sub">Sign in to like posts, leave comments, and bookmark your favourites.</div>
+    <div class="auth-sub">Sign in to like, comment and bookmark posts.</div>
     <div class="auth-tabs">
       <button class="auth-tab active" onclick="switchTab('login')">Sign In</button>
       <button class="auth-tab" onclick="switchTab('register')">Register</button>
@@ -312,8 +313,62 @@ footer{padding:36px 72px;display:flex;align-items:center;justify-content:space-b
       <div class="auth-divider"><span>or</span></div>
       <input class="auth-input" type="email" id="authEmail" placeholder="Email address">
       <input class="auth-input" type="password" id="authPassword" placeholder="Password">
-      <input class="auth-input" type="text" id="authName" placeholder="Display name (for registration)" style="display:none">
+      <input class="auth-input" type="text" id="authName" placeholder="Display name" style="display:none">
       <button class="btn btn-primary" id="authSubmitBtn" onclick="handleEmailAuth()" style="width:100%;justify-content:center">Sign In</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW POST MODAL -->
+<div id="post-modal">
+  <div class="post-modal-box">
+    <button class="modal-close" onclick="closePostModal()">×</button>
+    <div class="modal-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--gold)"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+      <span id="postModalTitle">New Post</span>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Title *</label>
+      <input class="form-input" id="pTitle" type="text" placeholder="Post title...">
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label class="form-label">Category *</label>
+        <select class="form-select" id="pCat">
+          <option value="design">Design</option>
+          <option value="code">Code</option>
+          <option value="game">Gaming</option>
+          <option value="life">Life</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Read time</label>
+        <input class="form-input" id="pRead" type="text" placeholder="e.g. 5 min read">
+      </div>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Excerpt *</label>
+      <input class="form-input" id="pExcerpt" type="text" placeholder="Short description for the card...">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Content (Markdown supported) *</label>
+      <textarea class="form-textarea" id="pContent" placeholder="Write your post content here...&#10;&#10;## Heading&#10;&#10;Paragraph text...&#10;&#10;**Bold**, *italic*, `code`"></textarea>
+      <div class="form-hint">Supports: ## Heading, **bold**, *italic*, `code`, > blockquote, ```codeblock```</div>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Cover image URL (optional)</label>
+      <input class="form-input" id="pCover" type="text" placeholder="https://... or leave empty for emoji cover">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Cover emoji (if no image)</label>
+      <input class="form-input" id="pEmoji" type="text" placeholder="🎨" maxlength="2">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closePostModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="savePost()">
+        <svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+        <span id="savePostBtnText">Publish Post</span>
+      </button>
     </div>
   </div>
 </div>
@@ -325,15 +380,22 @@ footer{padding:36px 72px;display:flex;align-items:center;justify-content:space-b
       <div class="comments-title" id="commentsTitle">Comments</div>
       <button class="comments-close" onclick="closeComments()">×</button>
     </div>
-    <div class="comments-list" id="commentsList">
-      <div class="no-comments">Loading comments...</div>
-    </div>
-    <div class="comments-input-wrap" id="commentsInputWrap">
-      <div class="auth-prompt">
-        <a href="#" onclick="openAuth();return false;">Sign in</a> to leave a comment
-      </div>
-    </div>
+    <div class="comments-list" id="commentsList"></div>
+    <div class="comments-input-wrap" id="commentsInputWrap"></div>
   </div>
+</div>
+
+<!-- ADMIN TOOLBAR -->
+<div id="admin-toolbar">
+  <div class="admin-label">Admin Mode</div>
+  <button class="admin-btn" onclick="openPostModal()">
+    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+    New Post
+  </button>
+  <button class="admin-btn" onclick="toggleAdminView()">
+    <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+    <span id="adminViewLabel">Show Edit Buttons</span>
+  </button>
 </div>
 
 <!-- NAV -->
@@ -341,21 +403,17 @@ footer{padding:36px 72px;display:flex;align-items:center;justify-content:space-b
   <a class="nav-logo" href="shiningsun_advanced.html">Shining <em>Sun</em></a>
   <ul class="nav-links">
     <li><a href="shiningsun_advanced.html">Portfolio</a></li>
-    <li><a href="#" class="active">Blog</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="bookmarks.html">Bookmarks</a></li>
     <li><a href="shiningsun_advanced.html#contact">Contact</a></li>
   </ul>
-  <div class="nav-right">
-    <div id="navAuthSection">
-      <button class="nav-auth-btn" onclick="openAuth()">Sign In</button>
-    </div>
-  </div>
+  <div class="nav-right"><div id="navAuthSection"><button class="nav-auth-btn" onclick="openAuth()">Sign In</button></div></div>
 </nav>
 
 <!-- BLOG HERO -->
 <section class="blog-hero">
   <div class="blog-hero-bg"><div class="ring"></div><div class="ring"></div></div>
-  <div class="hc tl"></div><div class="hc tr"></div>
-  <div class="hc bl"></div><div class="hc br"></div>
+  <div class="hc tl"></div><div class="hc tr"></div><div class="hc bl"></div><div class="hc br"></div>
   <div class="hud-v l">Thoughts // 2025</div>
   <div class="hud-v r">Blog</div>
   <div class="hud-dots" style="top:82px;right:155px;">× × × × × × × × × × × × ×</div>
@@ -382,169 +440,45 @@ footer{padding:36px 72px;display:flex;align-items:center;justify-content:space-b
   <button class="cat-btn" onclick="filterCat('life',this)">Life</button>
 </div>
 
-<!-- FEATURED POST -->
-<section class="featured">
+<!-- FEATURED -->
+<section class="featured" id="featuredSection">
   <div class="section-eyebrow">Featured</div>
-  <div class="featured-card">
-    <div class="featured-img">
-      <img src="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-keybanner.jpg" alt="Featured">
-    </div>
-    <div class="featured-body">
-      <div class="featured-meta">
-        <span class="post-tag design">Design</span>
-        <span class="post-date">Aug 14, 2025</span>
-        <span class="post-read">8 min read</span>
-      </div>
-      <h2 class="featured-title">Why Valorant has the best UI design in gaming — and what I stole from it</h2>
-      <p class="featured-excerpt">Riot's HUD is a masterclass in information hierarchy, contrast ratios, and micro-interaction. I spent three months studying it and it completely changed how I think about product design.</p>
-      <div class="post-interactions" style="margin-bottom:20px">
-        <button class="interact-btn" onclick="toggleLike('featured-post',this)" id="like-featured-post">
-          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span class="like-count" data-post="featured-post">0</span> Likes
-        </button>
-        <button class="interact-btn" onclick="openComments('featured-post','Valorant UI Design')">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <span id="comment-count-featured-post">0</span> Comments
-        </button>
-        <button class="interact-btn" onclick="toggleBookmark('featured-post',this)" id="bookmark-featured-post">
-          <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
-          Save
-        </button>
-      </div>
-      <a href="#" class="read-link">Read post</a>
+  <div class="featured-card" id="featuredCard">
+    <div class="featured-img skeleton" style="min-height:380px"></div>
+    <div class="featured-body" style="padding:52px 48px">
+      <div class="skeleton" style="height:20px;width:200px;margin-bottom:20px"></div>
+      <div class="skeleton" style="height:40px;margin-bottom:14px"></div>
+      <div class="skeleton" style="height:80px;margin-bottom:24px"></div>
     </div>
   </div>
 </section>
 
-<!-- UPSIDE DOWN BANNER DIVIDER -->
+<!-- BANNER DIVIDER -->
 <div class="banner-divider">
   <img src="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-upsidedown.png" alt="Clove">
   <div class="banner-divider-overlay">
-    <div class="banner-divider-text">
-      <span class="solid">All</span>
-      <span class="outline">Posts</span>
-    </div>
+    <div class="banner-divider-text"><span class="solid">All</span><span class="outline">Posts</span></div>
   </div>
 </div>
 
 <!-- BLOG GRID -->
 <section class="blog-grid-section">
   <div class="blog-grid" id="blogGrid">
-
-    <div class="blog-card" data-cat="design">
-      <div class="blog-card-img"><div class="blog-card-placeholder">🎨</div></div>
-      <div class="blog-card-body">
-        <div class="blog-card-meta"><span class="post-tag design">Design</span><span class="post-date">Aug 20, 2025</span></div>
-        <h3 class="blog-card-title">Building a dark design system from scratch</h3>
-        <p class="blog-card-excerpt">Everything I learned creating a 60+ component library — tokens, typography scales, and why "just use Tailwind" isn't always the answer.</p>
-        <div class="blog-card-footer">
-          <div class="blog-card-interact">
-            <button class="mini-interact" onclick="toggleLike('post-1',this)" id="like-post-1"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span class="like-count" data-post="post-1">0</span></button>
-            <button class="mini-interact" onclick="openComments('post-1','Dark Design System')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span id="comment-count-post-1">0</span></button>
-            <button class="mini-interact" onclick="toggleBookmark('post-1',this)" id="bookmark-post-1"><svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg></button>
-          </div>
-          <a href="#" class="card-read-link">Read →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="blog-card" data-cat="code">
-      <div class="blog-card-img"><div class="blog-card-placeholder">⚡</div></div>
-      <div class="blog-card-body">
-        <div class="blog-card-meta"><span class="post-tag code">Code</span><span class="post-date">Aug 12, 2025</span></div>
-        <h3 class="blog-card-title">Real-time everything: WebSockets vs SSE in 2025</h3>
-        <p class="blog-card-excerpt">A deep dive into when to use WebSockets, when Server-Sent Events are actually better, and how I built a sub-50ms notification layer.</p>
-        <div class="blog-card-footer">
-          <div class="blog-card-interact">
-            <button class="mini-interact" onclick="toggleLike('post-2',this)" id="like-post-2"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span class="like-count" data-post="post-2">0</span></button>
-            <button class="mini-interact" onclick="openComments('post-2','WebSockets vs SSE')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span id="comment-count-post-2">0</span></button>
-            <button class="mini-interact" onclick="toggleBookmark('post-2',this)" id="bookmark-post-2"><svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg></button>
-          </div>
-          <a href="#" class="card-read-link">Read →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="blog-card" data-cat="game">
-      <div class="blog-card-img"><div class="blog-card-placeholder">🎮</div></div>
-      <div class="blog-card-body">
-        <div class="blog-card-meta"><span class="post-tag game">Gaming</span><span class="post-date">Jul 30, 2025</span></div>
-        <h3 class="blog-card-title">What Clove taught me about chaotic creativity</h3>
-        <p class="blog-card-excerpt">Playing an agent who thrives in death changed how I think about failure, iteration, and why constraints are actually freeing.</p>
-        <div class="blog-card-footer">
-          <div class="blog-card-interact">
-            <button class="mini-interact" onclick="toggleLike('post-3',this)" id="like-post-3"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span class="like-count" data-post="post-3">0</span></button>
-            <button class="mini-interact" onclick="openComments('post-3','Clove and Creativity')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span id="comment-count-post-3">0</span></button>
-            <button class="mini-interact" onclick="toggleBookmark('post-3',this)" id="bookmark-post-3"><svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg></button>
-          </div>
-          <a href="#" class="card-read-link">Read →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="blog-card" data-cat="life">
-      <div class="blog-card-img"><div class="blog-card-placeholder">🌙</div></div>
-      <div class="blog-card-body">
-        <div class="blog-card-meta"><span class="post-tag life">Life</span><span class="post-date">Jul 18, 2025</span></div>
-        <h3 class="blog-card-title">The 2AM developer: surviving late-night build sessions</h3>
-        <p class="blog-card-excerpt">Lo-fi playlists, caffeine rituals, and the strange productivity that only exists when the rest of the world is asleep.</p>
-        <div class="blog-card-footer">
-          <div class="blog-card-interact">
-            <button class="mini-interact" onclick="toggleLike('post-4',this)" id="like-post-4"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span class="like-count" data-post="post-4">0</span></button>
-            <button class="mini-interact" onclick="openComments('post-4','2AM Developer')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span id="comment-count-post-4">0</span></button>
-            <button class="mini-interact" onclick="toggleBookmark('post-4',this)" id="bookmark-post-4"><svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg></button>
-          </div>
-          <a href="#" class="card-read-link">Read →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="blog-card" data-cat="code">
-      <div class="blog-card-img"><div class="blog-card-placeholder">🔮</div></div>
-      <div class="blog-card-body">
-        <div class="blog-card-meta"><span class="post-tag code">Code</span><span class="post-date">Jul 5, 2025</span></div>
-        <h3 class="blog-card-title">GSAP vs Framer Motion: an honest 2025 comparison</h3>
-        <p class="blog-card-excerpt">After shipping motion-heavy projects with both, here's exactly when I reach for each — and the one project where I switched halfway through.</p>
-        <div class="blog-card-footer">
-          <div class="blog-card-interact">
-            <button class="mini-interact" onclick="toggleLike('post-5',this)" id="like-post-5"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span class="like-count" data-post="post-5">0</span></button>
-            <button class="mini-interact" onclick="openComments('post-5','GSAP vs Framer Motion')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span id="comment-count-post-5">0</span></button>
-            <button class="mini-interact" onclick="toggleBookmark('post-5',this)" id="bookmark-post-5"><svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg></button>
-          </div>
-          <a href="#" class="card-read-link">Read →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="blog-card" data-cat="design">
-      <div class="blog-card-img"><div class="blog-card-placeholder">✦</div></div>
-      <div class="blog-card-body">
-        <div class="blog-card-meta"><span class="post-tag design">Design</span><span class="post-date">Jun 22, 2025</span></div>
-        <h3 class="blog-card-title">Micro-interactions that actually matter</h3>
-        <p class="blog-card-excerpt">Not every hover needs a bounce. A guide to purposeful animation — when to add motion, when to strip it out, and how to tell the difference.</p>
-        <div class="blog-card-footer">
-          <div class="blog-card-interact">
-            <button class="mini-interact" onclick="toggleLike('post-6',this)" id="like-post-6"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span class="like-count" data-post="post-6">0</span></button>
-            <button class="mini-interact" onclick="openComments('post-6','Micro-interactions')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span id="comment-count-post-6">0</span></button>
-            <button class="mini-interact" onclick="toggleBookmark('post-6',this)" id="bookmark-post-6"><svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg></button>
-          </div>
-          <a href="#" class="card-read-link">Read →</a>
-        </div>
-      </div>
-    </div>
-
+    <div class="blog-card skeleton" style="height:360px"></div>
+    <div class="blog-card skeleton" style="height:360px"></div>
+    <div class="blog-card skeleton" style="height:360px"></div>
   </div>
 </section>
 
-<!-- 3D CLOVE CTA -->
+<!-- CTA -->
 <section class="cta-section">
-  <img class="cta-char" src="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-pointing-3d.png" alt="Clove pointing">
+  <img class="cta-char" src="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-pointing-3d.png" alt="Clove">
   <div class="cta-text">
     <div class="section-eyebrow">Community</div>
     <h2>Want to<br><span class="gold">discuss</span><br><span class="outline">more?</span></h2>
-    <p>Join the Discord server to talk dev, design, gaming and everything in between. Drop into the conversation.</p>
+    <p>Join the Discord to talk dev, design, gaming and everything in between.</p>
     <div class="cta-btns">
-      <a href="https://discord.gg/rNSKdVx4VU" target="_blank" class="btn btn-primary">Join Discord</a>
+      <a href="https://discord.gg/rNSKdVx4VU" target="_blank" class="btn btn-primary"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>Join Discord</a>
       <button class="btn btn-ghost" onclick="openAuth()">Sign in to comment</button>
     </div>
   </div>
@@ -566,382 +500,470 @@ footer{padding:36px 72px;display:flex;align-items:center;justify-content:space-b
 
 <footer>
   <div class="footer-name">Shining <em>Sun</em></div>
-  <img class="footer-chibi" src="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-chibi-face.png" alt="Shining Sun">
+  <img class="footer-chibi" src="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-chibi-face.png" alt="">
   <ul class="footer-links">
     <li><a href="shiningsun_advanced.html">Portfolio</a></li>
-    <li><a href="#">Blog</a></li>
-    <li><a href="shiningsun_advanced.html#contact">Contact</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="bookmarks.html">Bookmarks</a></li>
   </ul>
 </footer>
 
-<!-- Firebase Compat SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
-
 <script>
-// ── FIREBASE INIT ──
 firebase.initializeApp({
-  apiKey: "AIzaSyC3I9An38y5mrrxKr5GEoxMGXSwt5FcFoA",
-  authDomain: "shiningsunweb.firebaseapp.com",
-  projectId: "shiningsunweb",
-  storageBucket: "shiningsunweb.firebasestorage.app",
-  messagingSenderId: "254759948344",
-  appId: "1:254759948344:web:24daa35b98f665624056cd",
-  measurementId: "G-TDRH309EXX"
+  apiKey:"AIzaSyC3I9An38y5mrrxKr5GEoxMGXSwt5FcFoA",
+  authDomain:"shiningsunweb.firebaseapp.com",
+  projectId:"shiningsunweb",
+  storageBucket:"shiningsunweb.firebasestorage.app",
+  messagingSenderId:"254759948344",
+  appId:"1:254759948344:web:24daa35b98f665624056cd",
+  measurementId:"G-TDRH309EXX"
 });
 firebase.analytics();
-const db = firebase.firestore();
-const auth = firebase.auth();
+const db=firebase.firestore();
+const auth=firebase.auth();
 
-// ── LOADER ──
-const loaderBar = document.getElementById('loaderBar');
-const loaderStatus = document.getElementById('loaderStatus');
-const loader = document.getElementById('loader');
-const steps = [[20,'Loading...'],[50,'Connecting Firebase...'],[80,'Setting up auth...'],[100,"Ready!"]];
-let si = 0;
-const li = setInterval(() => {
-  if (si < steps.length) {
-    loaderBar.style.width = steps[si][0] + '%';
-    loaderStatus.textContent = steps[si][1];
-    si++;
-  } else {
-    clearInterval(li);
-    setTimeout(() => loader.classList.add('done'), 400);
-  }
-}, 280);
+// !! IMPORTANT: Replace this with your actual Firebase UID
+// Find it: Firebase Console → Authentication → Users → copy UID
+const ADMIN_UID = 'REPLACE_WITH_YOUR_FIREBASE_UID';
 
-// ── CURSOR ──
-const cursor = document.getElementById('cursor');
-const trail = document.getElementById('cursor-trail');
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-  setTimeout(() => { trail.style.left = e.clientX + 'px'; trail.style.top = e.clientY + 'px'; }, 80);
+// CURSOR
+const cursor=document.getElementById('cursor');
+const trail=document.getElementById('cursor-trail');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';
+  setTimeout(()=>{trail.style.left=e.clientX+'px';trail.style.top=e.clientY+'px';},80);
+});
+window.addEventListener('scroll',()=>{
+  document.getElementById('scroll-progress').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
 });
 
-// ── SCROLL PROGRESS ──
-window.addEventListener('scroll', () => {
-  document.getElementById('scroll-progress').style.width =
-    (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
-});
-
-// ── TOAST ──
-function toast(msg, type = 'info') {
-  const tc = document.getElementById('toast-container');
-  const t = document.createElement('div');
-  t.className = 'toast ' + type;
-  t.innerHTML = '<div class="toast-dot"></div>' + msg;
+// TOAST
+function toast(msg,type='info'){
+  const tc=document.getElementById('toast-container');
+  const t=document.createElement('div');
+  t.className='toast '+type;
+  t.innerHTML='<div class="toast-dot"></div>'+msg;
   tc.appendChild(t);
-  requestAnimationFrame(() => t.classList.add('show'));
-  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 4000);
+  requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400);},4000);
 }
 
-// ── AUTH STATE ──
-let currentUser = null;
-auth.onAuthStateChanged(user => {
-  currentUser = user;
+// AUTH
+let currentUser=null;
+let isAdmin=false;
+let authTab='login';
+let adminViewActive=false;
+let editingPostId=null;
+
+auth.onAuthStateChanged(user=>{
+  currentUser=user;
+  isAdmin=user&&user.uid===ADMIN_UID;
   updateNavAuth(user);
-  if (user) {
-    loadUserInteractions(user.uid);
+  if(isAdmin){
+    document.getElementById('admin-toolbar').classList.add('visible');
+  } else {
+    document.getElementById('admin-toolbar').classList.remove('visible');
   }
+  if(user) loadUserInteractions(user.uid);
 });
 
-function updateNavAuth(user) {
-  const sec = document.getElementById('navAuthSection');
-  if (user) {
-    const avatar = user.photoURL || 'https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-chibi-face.png';
-    const name = user.displayName || user.email.split('@')[0];
-    sec.innerHTML = `
-      <div class="nav-user">
-        <img class="nav-avatar" src="${avatar}" alt="${name}">
-        <span class="nav-username">${name}</span>
-        <button class="nav-signout" onclick="signOut()">Sign out</button>
-      </div>`;
+function updateNavAuth(user){
+  const sec=document.getElementById('navAuthSection');
+  if(user){
+    const avatar=user.photoURL||'https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-chibi-face.png';
+    sec.innerHTML=`<div class="nav-user"><img class="nav-avatar" src="${avatar}"><span class="nav-username">${user.displayName||user.email.split('@')[0]}</span><button class="nav-signout" onclick="signOut()">Sign out</button></div>`;
   } else {
-    sec.innerHTML = '<button class="nav-auth-btn" onclick="openAuth()">Sign In</button>';
+    sec.innerHTML='<button class="nav-auth-btn" onclick="openAuth()">Sign In</button>';
   }
 }
 
-// ── AUTH MODAL ──
-let authTab = 'login';
-function openAuth() { document.getElementById('auth-modal').classList.add('open'); }
-function closeAuth() { document.getElementById('auth-modal').classList.remove('open'); }
-document.getElementById('auth-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeAuth(); });
-
-function switchTab(tab) {
-  authTab = tab;
-  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
-  document.getElementById('authName').style.display = tab === 'register' ? 'block' : 'none';
-  document.getElementById('authSubmitBtn').textContent = tab === 'login' ? 'Sign In' : 'Create Account';
+function openAuth(){document.getElementById('auth-modal').classList.add('open');}
+function closeAuth(){document.getElementById('auth-modal').classList.remove('open');}
+document.getElementById('auth-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAuth();});
+function switchTab(tab){
+  authTab=tab;
+  document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active',(i===0&&tab==='login')||(i===1&&tab==='register')));
+  document.getElementById('authName').style.display=tab==='register'?'block':'none';
+  document.getElementById('authSubmitBtn').textContent=tab==='login'?'Sign In':'Create Account';
 }
-
-async function signInGoogle() {
-  try {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    await auth.signInWithPopup(provider);
+async function signInGoogle(){
+  try{await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());closeAuth();toast('Signed in ✓','success');}
+  catch(e){toast(e.message,'error');}
+}
+async function handleEmailAuth(){
+  const email=document.getElementById('authEmail').value;
+  const password=document.getElementById('authPassword').value;
+  const name=document.getElementById('authName').value;
+  if(!email||!password){toast('Fill in email and password','error');return;}
+  try{
+    if(authTab==='login'){await auth.signInWithEmailAndPassword(email,password);toast('Welcome back! ✓','success');}
+    else{if(!name){toast('Enter a display name','error');return;}const c=await auth.createUserWithEmailAndPassword(email,password);await c.user.updateProfile({displayName:name});toast('Account created! ✓','success');}
     closeAuth();
-    toast('Signed in with Google ✓', 'success');
-  } catch(e) {
-    toast('Google sign-in failed: ' + e.message, 'error');
-  }
+  }catch(e){toast(e.message,'error');}
+}
+async function signOut(){await auth.signOut();toast('Signed out','info');}
+
+// ── LOAD POSTS FROM FIRESTORE ──
+let allPosts=[];
+let currentCat='all';
+
+async function loadPosts(){
+  db.collection('blog_posts').orderBy('createdAt','desc').onSnapshot(snap=>{
+    allPosts=[];
+    snap.forEach(doc=>{allPosts.push({id:doc.id,...doc.data()});});
+    renderPosts();
+  });
 }
 
-async function handleEmailAuth() {
-  const email = document.getElementById('authEmail').value;
-  const password = document.getElementById('authPassword').value;
-  const name = document.getElementById('authName').value;
-  if (!email || !password) { toast('Fill in email and password', 'error'); return; }
-  try {
-    if (authTab === 'login') {
-      await auth.signInWithEmailAndPassword(email, password);
-      toast('Welcome back! ✓', 'success');
-    } else {
-      if (!name) { toast('Enter a display name', 'error'); return; }
-      const cred = await auth.createUserWithEmailAndPassword(email, password);
-      await cred.user.updateProfile({ displayName: name });
-      toast('Account created! Welcome ✓', 'success');
+function renderPosts(){
+  const filtered=currentCat==='all'?allPosts:allPosts.filter(p=>p.category===currentCat);
+  renderFeatured(filtered[0]);
+  renderGrid(filtered.slice(1));
+}
+
+function renderFeatured(post){
+  const sec=document.getElementById('featuredCard');
+  if(!post){
+    sec.innerHTML='<div style="padding:48px;font-family:Barlow Condensed,sans-serif;font-size:18px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;grid-column:1/-1">No posts yet'+( isAdmin?' — click New Post to add one':'')+'</div>';
+    return;
+  }
+  const tagColors={'design':'design','code':'code','game':'game','life':'life'};
+  const tc=tagColors[post.category]||'design';
+  const date=post.createdAt?new Date(post.createdAt.seconds*1000).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';
+  sec.innerHTML=`
+    <div class="featured-img">
+      ${post.cover?`<img src="${post.cover}" alt="${post.title}">`:`<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:80px;background:linear-gradient(135deg,#1a0d30,#3d2270)">${post.emoji||'📝'}</div>`}
+    </div>
+    <div class="featured-body">
+      ${isAdmin&&adminViewActive?`<div class="admin-card-actions visible"><button class="admin-card-btn" onclick="editPost('${post.id}')">Edit</button><button class="admin-card-btn del" onclick="deletePost('${post.id}')">Delete</button></div>`:''}
+      <div class="featured-meta">
+        <span class="post-tag ${tc}">${post.category}</span>
+        <span class="post-date">${date}</span>
+        <span class="post-read">${post.readTime||''}</span>
+      </div>
+      <h2 class="featured-title">${post.title}</h2>
+      <p class="featured-excerpt">${post.excerpt}</p>
+      <div class="post-interactions" style="margin-bottom:20px">
+        <button class="interact-btn" onclick="toggleLike('${post.id}',this)" id="like-${post.id}">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span class="like-count" data-post="${post.id}">0</span> Likes
+        </button>
+        <button class="interact-btn" onclick="openComments('${post.id}','${post.title.replace(/'/g,"\\'")}')">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span id="comment-count-${post.id}">0</span> Comments
+        </button>
+        <button class="interact-btn" onclick="toggleBookmark('${post.id}',this)" id="bookmark-${post.id}">
+          <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+          Save
+        </button>
+      </div>
+      <a href="post.html?post=${post.id}" class="read-link">Read post</a>
+    </div>`;
+  subscribeToLikes(post.id);
+  subscribeToCommentCount(post.id);
+}
+
+function renderGrid(posts){
+  const grid=document.getElementById('blogGrid');
+  if(!posts.length){
+    grid.innerHTML='<div class="blog-empty"><div class="blog-empty-icon">✍️</div><div class="blog-empty-title">More posts coming soon</div><p class="blog-empty-sub">Stay tuned.</p></div>';
+    return;
+  }
+  const emojis=['🎨','⚡','🎮','🌙','🔮','✦','🚀','🎯'];
+  const bgs=['linear-gradient(135deg,#1a0d30,#3d2270)','linear-gradient(135deg,#1a1008,#3d2e08)','linear-gradient(135deg,#08121a,#082a3d)','linear-gradient(135deg,#1a0818,#3d0830)','linear-gradient(135deg,#0d1a08,#1e3d10)','linear-gradient(135deg,#1a0d30,#4a1270)'];
+  grid.innerHTML=posts.map((p,i)=>{
+    const date=p.createdAt?new Date(p.createdAt.seconds*1000).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';
+    const tc=p.category||'design';
+    const bg=bgs[i%bgs.length];
+    const emoji=p.emoji||emojis[i%emojis.length];
+    return `<div class="blog-card" data-cat="${tc}" style="display:flex">
+      <div class="blog-card-img">
+        ${p.cover?`<img src="${p.cover}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)">`:`<div class="blog-card-placeholder" style="background:${bg}">${emoji}</div>`}
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-card-meta"><span class="post-tag ${tc}">${tc}</span><span class="post-date">${date}</span></div>
+        <h3 class="blog-card-title">${p.title}</h3>
+        <p class="blog-card-excerpt">${p.excerpt}</p>
+        <div class="blog-card-footer">
+          <div class="blog-card-interact">
+            <button class="mini-interact" onclick="toggleLike('${p.id}',this)" id="like-${p.id}"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span class="like-count" data-post="${p.id}">0</span></button>
+            <button class="mini-interact" onclick="openComments('${p.id}','${p.title.replace(/'/g,"\\'")}')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span id="comment-count-${p.id}">0</span></button>
+            <button class="mini-interact" onclick="toggleBookmark('${p.id}',this)" id="bookmark-${p.id}"><svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg></button>
+            ${isAdmin&&adminViewActive?`<button class="mini-interact" onclick="editPost('${p.id}')" style="color:var(--gold)"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button><button class="mini-interact" onclick="deletePost('${p.id}')" style="color:var(--red)"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>`:''}
+          </div>
+          <a href="post.html?post=${p.id}" class="card-read-link">Read →</a>
+        </div>
+      </div>
+      ${isAdmin&&adminViewActive?`<div class="admin-card-actions visible" style="top:8px;right:8px;position:absolute"><button class="admin-card-btn" onclick="editPost('${p.id}')">Edit</button><button class="admin-card-btn del" onclick="deletePost('${p.id}')">Delete</button></div>`:''}
+    </div>`;
+  }).join('');
+
+  // Subscribe to live counts for all posts
+  posts.forEach(p=>{
+    subscribeToLikes(p.id);
+    subscribeToCommentCount(p.id);
+  });
+
+  // Scroll reveal
+  document.querySelectorAll('.blog-card').forEach((el,i)=>{
+    el.style.opacity='0';el.style.transform='translateY(20px)';
+    el.style.transition='opacity .55s ease,transform .55s ease';
+    setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)';},i*80);
+  });
+
+  // Re-apply user interactions
+  if(currentUser) loadUserInteractions(currentUser.uid);
+}
+
+function subscribeToLikes(postId){
+  db.collection('blog_posts').doc(postId).onSnapshot(snap=>{
+    const data=snap.data();
+    document.querySelectorAll(`.like-count[data-post="${postId}"]`).forEach(el=>el.textContent=(data&&data.likes)||0);
+  });
+}
+
+function subscribeToCommentCount(postId){
+  db.collection('blog_posts').doc(postId).collection('comments').onSnapshot(snap=>{
+    const el=document.getElementById('comment-count-'+postId);
+    if(el) el.textContent=snap.size;
+  });
+}
+
+// ── ADMIN POST CRUD ──
+function openPostModal(postId=null){
+  editingPostId=postId;
+  document.getElementById('postModalTitle').textContent=postId?'Edit Post':'New Post';
+  document.getElementById('savePostBtnText').textContent=postId?'Update Post':'Publish Post';
+  if(!postId){
+    document.getElementById('pTitle').value='';
+    document.getElementById('pCat').value='design';
+    document.getElementById('pRead').value='';
+    document.getElementById('pExcerpt').value='';
+    document.getElementById('pContent').value='';
+    document.getElementById('pCover').value='';
+    document.getElementById('pEmoji').value='';
+  } else {
+    const post=allPosts.find(p=>p.id===postId);
+    if(post){
+      document.getElementById('pTitle').value=post.title||'';
+      document.getElementById('pCat').value=post.category||'design';
+      document.getElementById('pRead').value=post.readTime||'';
+      document.getElementById('pExcerpt').value=post.excerpt||'';
+      document.getElementById('pContent').value=post.content||'';
+      document.getElementById('pCover').value=post.cover||'';
+      document.getElementById('pEmoji').value=post.emoji||'';
     }
-    closeAuth();
-  } catch(e) {
-    toast(e.message, 'error');
   }
+  document.getElementById('post-modal').classList.add('open');
 }
 
-async function signOut() {
-  await auth.signOut();
-  toast('Signed out', 'info');
+function closePostModal(){document.getElementById('post-modal').classList.remove('open');editingPostId=null;}
+document.getElementById('post-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closePostModal();});
+
+async function savePost(){
+  if(!isAdmin){toast('Admin only','error');return;}
+  const title=document.getElementById('pTitle').value.trim();
+  const excerpt=document.getElementById('pExcerpt').value.trim();
+  const content=document.getElementById('pContent').value.trim();
+  if(!title||!excerpt||!content){toast('Fill in title, excerpt and content','error');return;}
+  const data={
+    title,
+    category:document.getElementById('pCat').value,
+    readTime:document.getElementById('pRead').value||'5 min read',
+    excerpt,
+    content,
+    cover:document.getElementById('pCover').value.trim()||null,
+    emoji:document.getElementById('pEmoji').value||'📝',
+    updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+  };
+  try{
+    if(editingPostId){
+      await db.collection('blog_posts').doc(editingPostId).update(data);
+      toast('Post updated! ✓','success');
+    } else {
+      data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
+      data.likes=0;
+      await db.collection('blog_posts').add(data);
+      toast('Post published! 🚀','success');
+    }
+    closePostModal();
+  }catch(e){toast('Error: '+e.message,'error');}
+}
+
+async function deletePost(postId){
+  if(!isAdmin)return;
+  if(!confirm('Delete this post? This cannot be undone.'))return;
+  await db.collection('blog_posts').doc(postId).delete();
+  toast('Post deleted','info');
+}
+
+function editPost(postId){openPostModal(postId);}
+
+function toggleAdminView(){
+  adminViewActive=!adminViewActive;
+  document.getElementById('adminViewLabel').textContent=adminViewActive?'Hide Edit Buttons':'Show Edit Buttons';
+  renderPosts();
+  toast(adminViewActive?'Edit buttons visible':'Edit buttons hidden','info');
 }
 
 // ── LIKES ──
-async function toggleLike(postId, btn) {
-  if (!currentUser) { openAuth(); toast('Sign in to like posts', 'info'); return; }
-  const uid = currentUser.uid;
-  const ref = db.collection('posts').doc(postId);
-  const likeRef = ref.collection('likes').doc(uid);
-  const likeSnap = await likeRef.get();
-
-  if (likeSnap.exists) {
-    await likeRef.delete();
-    await ref.set({ likes: firebase.firestore.FieldValue.increment(-1) }, { merge: true });
-    btn.classList.remove('liked');
-    toast('Like removed', 'info');
-  } else {
-    await likeRef.set({ uid, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-    await ref.set({ likes: firebase.firestore.FieldValue.increment(1) }, { merge: true });
-    btn.classList.add('liked');
-    toast('Liked! 💜', 'success');
+async function toggleLike(postId,btn){
+  if(!currentUser){openAuth();toast('Sign in to like','info');return;}
+  const ref=db.collection('blog_posts').doc(postId).collection('likes').doc(currentUser.uid);
+  const snap=await ref.get();
+  const postRef=db.collection('blog_posts').doc(postId);
+  if(snap.exists){
+    await ref.delete();
+    await postRef.update({likes:firebase.firestore.FieldValue.increment(-1)});
+    document.querySelectorAll('#like-'+postId).forEach(b=>b.classList.remove('liked'));
+    toast('Like removed','info');
+  }else{
+    await ref.set({uid:currentUser.uid,timestamp:firebase.firestore.FieldValue.serverTimestamp()});
+    await postRef.update({likes:firebase.firestore.FieldValue.increment(1)});
+    document.querySelectorAll('#like-'+postId).forEach(b=>b.classList.add('liked'));
+    toast('Liked! 💜','success');
   }
 }
 
 // ── BOOKMARKS ──
-async function toggleBookmark(postId, btn) {
-  if (!currentUser) { openAuth(); toast('Sign in to bookmark', 'info'); return; }
-  const uid = currentUser.uid;
-  const ref = db.collection('users').doc(uid).collection('bookmarks').doc(postId);
-  const snap = await ref.get();
-  if (snap.exists) {
+async function toggleBookmark(postId,btn){
+  if(!currentUser){openAuth();toast('Sign in to bookmark','info');return;}
+  const ref=db.collection('users').doc(currentUser.uid).collection('bookmarks').doc(postId);
+  const snap=await ref.get();
+  if(snap.exists){
     await ref.delete();
-    btn.classList.remove('bookmarked');
-    toast('Bookmark removed', 'info');
-  } else {
-    await ref.set({ postId, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-    btn.classList.add('bookmarked');
-    toast('Bookmarked! 🔖', 'success');
+    document.querySelectorAll('#bookmark-'+postId).forEach(b=>b.classList.remove('bookmarked'));
+    toast('Bookmark removed','info');
+  }else{
+    await ref.set({postId,timestamp:firebase.firestore.FieldValue.serverTimestamp()});
+    document.querySelectorAll('#bookmark-'+postId).forEach(b=>b.classList.add('bookmarked'));
+    toast('Bookmarked! 🔖','success');
   }
 }
 
-// ── LOAD USER INTERACTIONS ──
-async function loadUserInteractions(uid) {
-  const posts = ['featured-post','post-1','post-2','post-3','post-4','post-5','post-6'];
-  for (const postId of posts) {
-    // Check likes
-    const likeSnap = await db.collection('posts').doc(postId).collection('likes').doc(uid).get();
-    if (likeSnap.exists) {
-      const btn = document.getElementById('like-' + postId);
-      if (btn) btn.classList.add('liked');
-    }
-    // Check bookmarks
-    const bmSnap = await db.collection('users').doc(uid).collection('bookmarks').doc(postId).get();
-    if (bmSnap.exists) {
-      const btn = document.getElementById('bookmark-' + postId);
-      if (btn) btn.classList.add('bookmarked');
-    }
-  }
+async function loadUserInteractions(uid){
+  allPosts.forEach(async p=>{
+    const likeSnap=await db.collection('blog_posts').doc(p.id).collection('likes').doc(uid).get();
+    if(likeSnap.exists) document.querySelectorAll('#like-'+p.id).forEach(b=>b.classList.add('liked'));
+    const bmSnap=await db.collection('users').doc(uid).collection('bookmarks').doc(p.id).get();
+    if(bmSnap.exists) document.querySelectorAll('#bookmark-'+p.id).forEach(b=>b.classList.add('bookmarked'));
+  });
 }
-
-// ── LIVE LIKE COUNTS ──
-const posts = ['featured-post','post-1','post-2','post-3','post-4','post-5','post-6'];
-posts.forEach(postId => {
-  db.collection('posts').doc(postId).onSnapshot(snap => {
-    const data = snap.data();
-    const count = (data && data.likes) || 0;
-    document.querySelectorAll('.like-count[data-post="' + postId + '"]').forEach(el => {
-      el.textContent = count;
-    });
-  });
-  // Live comment counts
-  db.collection('posts').doc(postId).collection('comments').onSnapshot(snap => {
-    const el = document.getElementById('comment-count-' + postId);
-    if (el) el.textContent = snap.size;
-  });
-});
 
 // ── COMMENTS ──
-let currentPostId = null;
-let currentPostTitle = null;
-let commentsUnsubscribe = null;
-
-function openComments(postId, title) {
-  currentPostId = postId;
-  currentPostTitle = title;
-  document.getElementById('commentsTitle').textContent = title;
+let currentPostId=null;
+let commentsUnsubscribe=null;
+function openComments(postId,title){
+  currentPostId=postId;
+  document.getElementById('commentsTitle').textContent=title;
   document.getElementById('comments-modal').classList.add('open');
   loadComments(postId);
   updateCommentsInput();
 }
-
-function closeComments() {
+function closeComments(){
   document.getElementById('comments-modal').classList.remove('open');
-  if (commentsUnsubscribe) { commentsUnsubscribe(); commentsUnsubscribe = null; }
+  if(commentsUnsubscribe){commentsUnsubscribe();commentsUnsubscribe=null;}
 }
+document.getElementById('comments-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeComments();});
 
-document.getElementById('comments-modal').addEventListener('click', e => {
-  if (e.target === e.currentTarget) closeComments();
-});
-
-function loadComments(postId) {
-  const list = document.getElementById('commentsList');
-  list.innerHTML = '<div class="no-comments">Loading...</div>';
-  if (commentsUnsubscribe) commentsUnsubscribe();
-  commentsUnsubscribe = db.collection('posts').doc(postId)
-    .collection('comments').orderBy('timestamp','asc')
-    .onSnapshot(snap => {
-      if (snap.empty) {
-        list.innerHTML = '<div class="no-comments">No comments yet — be the first!</div>';
-        return;
-      }
-      list.innerHTML = '';
-      snap.forEach(doc => {
-        const d = doc.data();
-        const isOwn = currentUser && d.uid === currentUser.uid;
-        const time = d.timestamp ? new Date(d.timestamp.seconds*1000).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : 'just now';
-        const div = document.createElement('div');
-        div.className = 'comment';
-        div.innerHTML = `
-          <img class="comment-avatar" src="${d.avatar || 'https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-chibi-face.png'}" alt="${d.name}">
+function loadComments(postId){
+  const list=document.getElementById('commentsList');
+  list.innerHTML='<div class="no-comments">Loading...</div>';
+  if(commentsUnsubscribe)commentsUnsubscribe();
+  commentsUnsubscribe=db.collection('blog_posts').doc(postId).collection('comments')
+    .orderBy('timestamp','asc').onSnapshot(snap=>{
+      if(snap.empty){list.innerHTML='<div class="no-comments">No comments yet — be the first!</div>';return;}
+      list.innerHTML='';
+      snap.forEach(doc=>{
+        const d=doc.data();
+        const isOwn=currentUser&&d.uid===currentUser.uid;
+        const canDelete=isOwn||isAdmin;
+        const time=d.timestamp?new Date(d.timestamp.seconds*1000).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'just now';
+        const div=document.createElement('div');
+        div.className='comment';
+        div.innerHTML=`
+          <img class="comment-avatar" src="${d.avatar||'https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-chibi-face.png'}" alt="">
           <div class="comment-body">
             <div class="comment-meta">
               <span class="comment-name">${d.name}</span>
               <span class="comment-time">${time}</span>
-              ${isOwn ? `<button class="comment-delete" onclick="deleteComment('${postId}','${doc.id}')">Delete</button>` : ''}
+              ${canDelete?`<button class="comment-delete" onclick="deleteComment('${postId}','${doc.id}')">Delete</button>`:''}
             </div>
             <div class="comment-text">${d.text}</div>
           </div>`;
         list.appendChild(div);
       });
-      list.scrollTop = list.scrollHeight;
+      list.scrollTop=list.scrollHeight;
     });
 }
 
-function updateCommentsInput() {
-  const wrap = document.getElementById('commentsInputWrap');
-  if (currentUser) {
-    wrap.innerHTML = `
-      <div class="comments-input-row">
-        <textarea class="comment-input" id="commentInput" placeholder="Leave a comment..."></textarea>
-        <button class="comment-submit" onclick="submitComment()">Post</button>
-      </div>`;
+function updateCommentsInput(){
+  const wrap=document.getElementById('commentsInputWrap');
+  if(currentUser){
+    wrap.innerHTML=`<div class="comments-input-row"><textarea class="comment-input" id="commentInput" placeholder="Leave a comment..."></textarea><button class="comment-submit" onclick="submitComment()">Post</button></div>`;
   } else {
-    wrap.innerHTML = `<div class="auth-prompt"><a href="#" onclick="closeComments();openAuth();return false;">Sign in</a> to leave a comment</div>`;
+    wrap.innerHTML=`<div class="auth-prompt"><a href="#" onclick="closeComments();openAuth();return false;">Sign in</a> to leave a comment</div>`;
   }
 }
+auth.onAuthStateChanged(()=>{if(currentPostId)updateCommentsInput();});
 
-// Update input when auth changes
-auth.onAuthStateChanged(() => {
-  if (currentPostId) updateCommentsInput();
-});
-
-async function submitComment() {
-  if (!currentUser) { openAuth(); return; }
-  const input = document.getElementById('commentInput');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  try {
-    await db.collection('posts').doc(currentPostId).collection('comments').add({
-      uid: currentUser.uid,
-      name: currentUser.displayName || currentUser.email.split('@')[0],
-      avatar: currentUser.photoURL || '',
+async function submitComment(){
+  if(!currentUser){openAuth();return;}
+  const input=document.getElementById('commentInput');
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  try{
+    await db.collection('blog_posts').doc(currentPostId).collection('comments').add({
+      uid:currentUser.uid,
+      name:currentUser.displayName||currentUser.email.split('@')[0],
+      avatar:currentUser.photoURL||'',
       text,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      timestamp:firebase.firestore.FieldValue.serverTimestamp()
     });
-    toast('Comment posted! 💬', 'success');
-  } catch(e) {
-    toast('Could not post comment', 'error');
-  }
+    toast('Comment posted! 💬','success');
+  }catch(e){toast('Could not post comment','error');}
 }
 
-async function deleteComment(postId, commentId) {
-  if (!currentUser) return;
-  await db.collection('posts').doc(postId).collection('comments').doc(commentId).delete();
-  toast('Comment deleted', 'info');
+async function deleteComment(postId,commentId){
+  await db.collection('blog_posts').doc(postId).collection('comments').doc(commentId).delete();
+  toast('Comment deleted','info');
 }
 
-// ── CATEGORY FILTER ──
-function filterCat(cat, btn) {
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+// ── FILTER ──
+function filterCat(cat,btn){
+  currentCat=cat;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.blog-card').forEach(card => {
-    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'flex' : 'none';
-  });
+  renderPosts();
 }
 
-// ── SEARCH ──
-function filterPosts() {
-  const q = document.getElementById('searchInput').value.toLowerCase();
-  document.querySelectorAll('.blog-card').forEach(card => {
-    const title = card.querySelector('.blog-card-title').textContent.toLowerCase();
-    const excerpt = card.querySelector('.blog-card-excerpt').textContent.toLowerCase();
-    card.style.display = (!q || title.includes(q) || excerpt.includes(q)) ? 'flex' : 'none';
-  });
+function filterPosts(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  if(!q){renderPosts();return;}
+  const filtered=allPosts.filter(p=>p.title.toLowerCase().includes(q)||p.excerpt.toLowerCase().includes(q));
+  renderFeatured(filtered[0]);
+  renderGrid(filtered.slice(1));
 }
-document.getElementById('searchInput').addEventListener('keyup', e => { if (e.key === 'Enter') filterPosts(); });
+document.getElementById('searchInput').addEventListener('keyup',e=>{if(e.key==='Enter')filterPosts();});
 
 // ── NEWSLETTER ──
-async function subscribeNewsletter() {
-  const name = document.getElementById('nlName').value;
-  const email = document.getElementById('nlEmail').value;
-  if (!email) { toast('Enter your email', 'error'); return; }
-  try {
-    await db.collection('newsletter').add({
-      name, email,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    document.getElementById('nlName').value = '';
-    document.getElementById('nlEmail').value = '';
-    toast('Subscribed! 💜 Welcome to the loop.', 'success');
-  } catch(e) {
-    toast('Could not subscribe. Try again.', 'error');
-  }
+async function subscribeNewsletter(){
+  const email=document.getElementById('nlEmail').value;
+  if(!email){toast('Enter your email','error');return;}
+  try{
+    await db.collection('newsletter').add({name:document.getElementById('nlName').value,email,timestamp:firebase.firestore.FieldValue.serverTimestamp()});
+    document.getElementById('nlName').value='';document.getElementById('nlEmail').value='';
+    toast('Subscribed! 💜','success');
+  }catch(e){toast('Could not subscribe','error');}
 }
 
-// ── SCROLL REVEAL ──
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) setTimeout(() => {
-      e.target.style.opacity = '1';
-      e.target.style.transform = 'translateY(0)';
-    }, i * 70);
-  });
-}, { threshold: 0.08 });
-document.querySelectorAll('.blog-card,.featured-card,.newsletter,.cta-section').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(20px)';
-  el.style.transition = 'opacity .55s ease,transform .55s ease';
-  obs.observe(el);
-});
+// ── INIT ──
+loadPosts();
 </script>
 </body>
 </html>
