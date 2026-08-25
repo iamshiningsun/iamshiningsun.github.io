@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Not Dead Yet | Shining Sun</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0b0816;--bg2:#120e22;--purple:#7c4fc4;--pdim:#3d2770;--plight:#b8a0e8;--lav:#cdbef5;--gold:#f0c060;--gdim:#b8893a;--white:#ede8f8;--muted:rgba(200,185,235,0.55);--green:#7fff6a}
+html,body{height:100%}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;overflow:hidden;cursor:none;display:flex;flex-direction:column}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(100,60,180,0.022) 3px,rgba(100,60,180,0.022) 4px);pointer-events:none;z-index:998}
+#cursor{position:fixed;width:12px;height:12px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference}
+#cursor-trail{position:fixed;width:36px;height:36px;border:1px solid rgba(180,140,240,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .12s ease,top .12s ease}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:20px 52px}
+.nav-logo{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--white);text-decoration:none}
+.nav-logo em{font-style:normal;color:var(--gold)}
+
+/* BG */
+.bg{position:fixed;inset:0;z-index:0}
+.bg-glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 60% 50%,rgba(124,79,196,.22) 0%,transparent 65%),radial-gradient(ellipse 40% 50% at 20% 60%,rgba(70,35,150,.12) 0%,transparent 55%),linear-gradient(148deg,#180e2e 0%,#0b0816 55%,#09071a 100%)}
+.bg-ring{position:absolute;border-radius:50%;border:1px solid rgba(180,140,240,.07);animation:breathe 7s ease-in-out infinite}
+.bg-ring:nth-child(2){width:700px;height:700px;right:-150px;top:-100px}
+.bg-ring:nth-child(3){width:450px;height:450px;right:-50px;top:50px;animation-delay:2s}
+.bg-ring:nth-child(4){width:200px;height:200px;right:150px;top:200px;animation-delay:4s;border-color:rgba(240,192,96,.06)}
+@keyframes breathe{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.05) rotate(3deg)}}
+
+/* HUD CORNERS */
+.hc{position:fixed;width:48px;height:48px;z-index:10}
+.hc::before,.hc::after{content:'';position:absolute;background:var(--gold);opacity:.3}
+.hc.tl{top:16px;left:16px}.hc.tl::before{top:0;left:0;width:2px;height:20px}.hc.tl::after{top:0;left:0;width:20px;height:2px}
+.hc.tr{top:16px;right:16px}.hc.tr::before{top:0;right:0;width:2px;height:20px}.hc.tr::after{top:0;right:0;width:20px;height:2px}
+.hc.bl{bottom:16px;left:16px}.hc.bl::before{bottom:0;left:0;width:2px;height:20px}.hc.bl::after{bottom:0;left:0;width:20px;height:2px}
+.hc.br{bottom:16px;right:16px}.hc.br::before{bottom:0;right:0;width:2px;height:20px}.hc.br::after{bottom:0;right:0;width:20px;height:2px}
+.hud-dots{position:fixed;font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:.22em;color:var(--pdim);opacity:.4;z-index:10}
+
+/* CLOVE IMAGE */
+.clove-wrap{position:fixed;right:-20px;bottom:0;z-index:2;height:90vh;max-height:780px;pointer-events:none}
+.clove-wrap img{height:100%;object-fit:contain;object-position:bottom right;filter:drop-shadow(0 0 50px rgba(124,79,196,.6)) drop-shadow(0 0 100px rgba(90,50,180,.35));animation:float 7s ease-in-out infinite;mix-blend-mode:screen}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+/* MAIN 404 */
+.four-o-four{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;justify-content:center;padding:100px 72px 60px;max-width:700px}
+.error-code{font-family:'Barlow Condensed',sans-serif;font-size:clamp(120px,18vw,220px);font-weight:900;line-height:.8;letter-spacing:-.03em;color:var(--white);margin-bottom:0;position:relative;display:flex;gap:0}
+.error-code .four{color:var(--white)}
+.error-code .zero{-webkit-text-stroke:2px var(--plight);color:transparent;animation:glitch 4s ease-in-out infinite}
+@keyframes glitch{
+  0%,90%,100%{-webkit-text-stroke-color:var(--plight);transform:none;opacity:1}
+  91%{-webkit-text-stroke-color:var(--gold);transform:translateX(-3px);opacity:.8}
+  93%{-webkit-text-stroke-color:var(--purple);transform:translateX(3px);opacity:.9}
+  95%{-webkit-text-stroke-color:var(--plight);transform:none;opacity:1}
+  97%{transform:translateY(-2px);opacity:.7}
+  99%{transform:none;opacity:1}
+}
+.error-tag{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:16px;margin-top:8px}
+.error-tag::before{content:'';width:28px;height:1px;background:currentColor;opacity:.6}
+.error-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(28px,5vw,52px);font-weight:900;text-transform:uppercase;color:var(--white);line-height:.95;letter-spacing:-.01em;margin-bottom:16px}
+.error-title .outline{-webkit-text-stroke:1.5px var(--plight);color:transparent;display:block}
+.error-sub{font-size:15px;font-weight:300;line-height:1.75;color:var(--muted);max-width:420px;margin-bottom:36px}
+.error-sub strong{color:var(--plight);font-weight:400}
+
+/* COUNTDOWN */
+.redirect-bar{display:flex;align-items:center;gap:16px;margin-bottom:36px;flex-wrap:wrap}
+.redirect-track{width:200px;height:2px;background:rgba(124,79,196,.15);position:relative;overflow:hidden}
+.redirect-fill{height:100%;background:linear-gradient(to right,var(--purple),var(--gold));width:100%;transform-origin:left;animation:countdown 10s linear forwards}
+@keyframes countdown{0%{width:100%}100%{width:0%}}
+.redirect-text{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.redirect-num{color:var(--gold)}
+
+/* NAV LINKS */
+.error-nav{display:flex;gap:12px;flex-wrap:wrap}
+.btn{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:14px 28px;cursor:none;text-decoration:none;display:inline-block;transition:all .2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);border:none}
+.btn-primary{background:var(--gold);color:#0b0816}.btn-primary:hover{background:#f8d488}
+.btn-ghost{background:transparent;color:var(--lav);border:1px solid var(--pdim)}.btn-ghost:hover{border-color:var(--lav);color:var(--white)}
+.btn-sm{padding:9px 18px;font-size:10px}
+
+/* QUICK LINKS */
+.quick-links{margin-top:48px}
+.quick-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.3em;color:var(--pdim);text-transform:uppercase;margin-bottom:12px}
+.quick-grid{display:flex;gap:8px;flex-wrap:wrap}
+.quick-link{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:7px 14px;background:rgba(124,79,196,.08);border:1px solid rgba(124,79,196,.2);color:var(--plight);text-decoration:none;transition:all .2s;cursor:none;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)}
+.quick-link:hover{border-color:rgba(180,140,240,.4);color:var(--white);background:rgba(124,79,196,.15)}
+
+/* VERTICAL LABEL */
+.vertical-label{position:fixed;right:26px;bottom:50%;transform:translateY(50%);font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:.35em;color:var(--pdim);text-transform:uppercase;writing-mode:vertical-rl;z-index:10}
+
+@media(max-width:768px){
+  nav{padding:16px 24px}
+  .four-o-four{padding:80px 24px 40px}
+  .clove-wrap{height:50vh;right:-40px}
+  .error-code{font-size:100px}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+
+<div class="bg">
+  <div class="bg-glow"></div>
+  <div class="bg-ring"></div>
+  <div class="bg-ring"></div>
+  <div class="bg-ring"></div>
+</div>
+
+<div class="hc tl"></div>
+<div class="hc tr"></div>
+<div class="hc bl"></div>
+<div class="hc br"></div>
+<div class="hud-dots" style="top:14px;right:200px;">× × × × × × × × × × × × × ×</div>
+<div class="hud-dots" style="bottom:14px;left:60px;">× × × × × × × × × × × × × ×</div>
+<div class="vertical-label">Page not found</div>
+
+<nav>
+  <a class="nav-logo" href="shiningsun_advanced.html">Shining <em>Sun</em></a>
+</nav>
+
+<!-- Clove clean render — screen blend makes white disappear -->
+<div class="clove-wrap">
+  <img src="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-clean-render.png" alt="Clove">
+</div>
+
+<main class="four-o-four">
+  <div class="error-code">
+    <span class="four">4</span>
+    <span class="zero">0</span>
+    <span class="four">4</span>
+  </div>
+
+  <div class="error-tag">Not Dead Yet</div>
+
+  <h1 class="error-title">
+    Page not
+    <span class="outline">found</span>
+  </h1>
+
+  <p class="error-sub">
+    This page died. But like Clove, <strong>not everything that falls stays down.</strong>
+    The URL you're looking for doesn't exist — it may have moved, been deleted, or never existed at all.
+  </p>
+
+  <div class="redirect-bar">
+    <div class="redirect-track"><div class="redirect-fill"></div></div>
+    <div class="redirect-text">Auto-redirecting in <span class="redirect-num" id="countdown">10</span>s</div>
+  </div>
+
+  <div class="error-nav">
+    <a href="shiningsun_advanced.html" class="btn btn-primary">Take me home</a>
+    <a href="blog.html" class="btn btn-ghost">Read the blog</a>
+  </div>
+
+  <div class="quick-links">
+    <div class="quick-label">Or go to //</div>
+    <div class="quick-grid">
+      <a href="gallery.html" class="quick-link">Gallery</a>
+      <a href="blog.html" class="quick-link">Blog</a>
+      <a href="bookmarks.html" class="quick-link">Bookmarks</a>
+      <a href="shiningsun_advanced.html#projects" class="quick-link">Projects</a>
+      <a href="shiningsun_advanced.html#contact" class="quick-link">Contact</a>
+      <a href="https://discord.gg/rNSKdVx4VU" target="_blank" class="quick-link">Discord</a>
+    </div>
+  </div>
+</main>
+
+<script>
+// CURSOR
+const cursor=document.getElementById('cursor');
+const trail=document.getElementById('cursor-trail');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';
+  setTimeout(()=>{trail.style.left=e.clientX+'px';trail.style.top=e.clientY+'px';},80);
+});
+
+// COUNTDOWN + AUTO REDIRECT
+let count=10;
+const el=document.getElementById('countdown');
+const interval=setInterval(()=>{
+  count--;
+  el.textContent=count;
+  if(count<=0){
+    clearInterval(interval);
+    window.location.href='shiningsun_advanced.html';
+  }
+},1000);
+
+// Parallax on Clove
+const clove=document.querySelector('.clove-wrap img');
+document.addEventListener('mousemove',e=>{
+  const x=(e.clientX/window.innerWidth-0.5)*10;
+  const y=(e.clientY/window.innerHeight-0.5)*6;
+  clove.style.transform=`translateY(${y}px) translateX(${x}px)`;
+});
+</script>
+</body>
+</html>
