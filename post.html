@@ -500,6 +500,22 @@ function buildTOC() {
   });
 }
 
+// SCROLL REVEAL
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }, i * 80);
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.related-card, .author-box').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity .55s ease, transform .55s ease';
+  revealObs.observe(el);
+});
+
 // INIT — load post from Firestore
 loadPost();
 
