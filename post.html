@@ -2,6 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+  <meta name="description" content="Read the latest from Shining Sun — creative developer writing about design, code and gaming.">
+  <meta name="author" content="Shining Sun">
+  <link rel="canonical" href="https://iamshiningsun.github.io/post.html">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Post — Shining Sun">
+  <meta property="og:description" content="Read the latest from Shining Sun — creative developer writing about design, code and gaming.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-keybanner.jpg">
+  <meta property="og:url" content="https://iamshiningsun.github.io/post.html">
+  <meta property="og:site_name" content="Shining Sun">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Post — Shining Sun">
+  <meta name="twitter:description" content="Read the latest from Shining Sun — creative developer writing about design, code and gaming.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-keybanner.jpg">
+  <meta name="twitter:creator" content="@iamshiningsun">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Post — Shining Sun</title>
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/icon.png">
@@ -185,6 +201,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .btn-primary{background:var(--gold);color:#0b0816}.btn-primary:hover{background:#f8d488}
 
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--pdim)}
+.skeleton{background:linear-gradient(90deg,rgba(124,79,196,.08) 25%,rgba(124,79,196,.16) 50%,rgba(124,79,196,.08) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;display:block}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
 @media(max-width:960px){
   nav{padding:16px 24px}.nav-links{display:none}
@@ -227,11 +245,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 </div>
 
 <nav>
-  <a class="nav-logo" href="shiningsun_advanced.html">Shining <em>Sun</em></a>
+  <a class="nav-logo" href="index.html">Shining <em>Sun</em></a>
   <ul class="nav-links">
-    <li><a href="shiningsun_advanced.html">Portfolio</a></li>
+    <li><a href="index.html">Portfolio</a></li>
     <li><a href="blog.html">Blog</a></li>
-    <li><a href="shiningsun_advanced.html#contact">Contact</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
   </ul>
   <div class="nav-right"><div id="navAuthSection"><button class="nav-auth-btn" onclick="openAuth()">Sign In</button></div></div>
 </nav>
@@ -280,43 +298,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
       </button>
     </div>
 
-    <!-- ARTICLE -->
+    <!-- ARTICLE — loaded dynamically from Firestore -->
     <article class="prose" id="postBody">
-      <p>When I first started getting serious about UI design, I did what most people do — I studied Dribbble shots, read Nielsen Norman articles, and obsessed over Material Design documentation. All useful. None of it hit different the way Valorant did.</p>
-
-      <h2>The HUD as a design system</h2>
-      <p>Riot didn't just make a game. They made a fully realized, internally consistent design system that happens to be interactive. Every element in Valorant's HUD obeys a set of invisible rules about <strong>hierarchy, contrast, and information density</strong> that I'd argue is more rigorous than most SaaS dashboards I've worked on.</p>
-      <p>Take the minimap. It communicates team position, objective status, spike location, and your own orientation — simultaneously — in a 200×200 pixel square. That's a design problem most product teams would spend a quarter arguing about.</p>
-
-      <blockquote>
-        <p>"Good design is as little design as possible." — Dieter Rams. Valorant's HUD is the most aggressive application of this principle I've ever seen in a real-time product.</p>
-      </blockquote>
-
-      <h2>What I stole: contrast ratios</h2>
-      <p>Valorant's colour palette looks vibrant and chaotic from a distance. Up close, it's ruthlessly calculated. Every agent colour is chosen to be immediately distinguishable against both light and dark backgrounds. The gold UI accents exist at a contrast ratio that passes WCAG AA even against the game's most washed-out environments.</p>
-      <p>I started applying this thinking to my own work. Instead of picking colours I liked, I'd ask: <em>does this read in low contrast? Does this read in high contrast? Does this read at 50% opacity?</em> That shift alone improved every interface I shipped in the following six months.</p>
-
-      <h2>Micro-interactions that earn their weight</h2>
-      <p>Every animation in Valorant's UI serves a function. The kill feed slides in from the right — directional, so your eye knows where to look. The round timer pulses when below ten seconds — urgency communicated without a sound. The shop highlights items you can afford — reducing cognitive load in a moment of high stress.</p>
-      <p>None of this is accidental. It's the result of a team that clearly ran every interaction through a filter: <strong>does this animation add information, or just noise?</strong></p>
-
-      <pre><code>// What I took away: animation should carry data
-const transition = {
-  enter: { x: 16, opacity: 0 },  // directional — tells you where it came from
-  center: { x: 0, opacity: 1 },
-  exit: { x: -16, opacity: 0 }   // exits same direction — consistent mental model
-};</code></pre>
-
-      <h2>Typography as information architecture</h2>
-      <p>Valorant uses a custom typeface (Tungsten) that was designed specifically for high-stress readability at small sizes on variable backgrounds. It's condensed, heavy, and geometric — perfect for a game UI. Most products can't commission a typeface, but the lesson still applies: <em>your font choice is an information architecture decision, not an aesthetic one.</em></p>
-      <p>I switched this portfolio to Barlow Condensed for exactly this reason. It communicates structure at a glance and gets out of the way when I need prose to breathe.</p>
-
-      <h2>The takeaway</h2>
-      <p>The best design education isn't always a course or a book. Sometimes it's playing a game with the intention of understanding <em>why</em> everything feels the way it does. Valorant taught me more about information hierarchy, motion design, and design systems than a lot of formal study did.</p>
-      <p>Next time you're in a match, alt-tab your designer brain on for a round. You'll see what I mean.</p>
-
-      <hr>
-      <p><em>If you found this useful, hit like or drop a comment below. Writing more on design systems and game UI next month.</em></p>
+      <div class="skeleton" style="height:22px;width:90%;margin-bottom:16px;border-radius:2px"></div>
+      <div class="skeleton" style="height:22px;width:75%;margin-bottom:32px;border-radius:2px"></div>
+      <div class="skeleton" style="height:16px;width:100%;margin-bottom:10px;border-radius:2px"></div>
+      <div class="skeleton" style="height:16px;width:95%;margin-bottom:10px;border-radius:2px"></div>
+      <div class="skeleton" style="height:16px;width:85%;margin-bottom:32px;border-radius:2px"></div>
+      <div class="skeleton" style="height:20px;width:50%;margin-bottom:16px;border-radius:2px"></div>
+      <div class="skeleton" style="height:16px;width:100%;margin-bottom:10px;border-radius:2px"></div>
+      <div class="skeleton" style="height:16px;width:80%;margin-bottom:10px;border-radius:2px"></div>
     </article>
 
     <!-- AUTHOR -->
@@ -407,31 +398,110 @@ firebase.analytics();
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-// Get post ID from URL param, default to featured-post
+// ── MARKDOWN PARSER ──
+function parseMarkdown(md) {
+  if (!md) return '';
+  return md
+    // code blocks
+    .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+    // inline code
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    // headings
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h2>$1</h2>')
+    // bold + italic
+    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    // blockquote
+    .replace(/^> (.+)$/gm, '<blockquote><p>$1</p></blockquote>')
+    // hr
+    .replace(/^---$/gm, '<hr>')
+    // links
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+    // unordered list
+    .replace(/^[*-] (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    // ordered list
+    .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+    // paragraphs — wrap non-tagged lines
+    .replace(/^(?!<[a-z]|\s*$)(.+)$/gm, '<p>$1</p>')
+    // clean up extra blank lines
+    .replace(/\n{3,}/g, '\n\n');
+}
+
+// ── LOAD POST FROM FIRESTORE ──
 const params = new URLSearchParams(window.location.search);
 const POST_ID = params.get('post') || 'featured-post';
 
-// Post data map
-const postData = {
-  'featured-post': { title:'Why Valorant has the best UI design in gaming', tag:'design', date:'Aug 14, 2025', read:'8 min read' },
-  'post-1': { title:'Building a dark design system from scratch', tag:'design', date:'Aug 20, 2025', read:'6 min read' },
-  'post-2': { title:'Real-time everything: WebSockets vs SSE in 2025', tag:'code', date:'Aug 12, 2025', read:'7 min read' },
-  'post-3': { title:'What Clove taught me about chaotic creativity', tag:'game', date:'Jul 30, 2025', read:'5 min read' },
-  'post-4': { title:'The 2AM developer: surviving late-night build sessions', tag:'life', date:'Jul 18, 2025', read:'4 min read' },
-  'post-5': { title:'GSAP vs Framer Motion: an honest 2025 comparison', tag:'code', date:'Jul 5, 2025', read:'9 min read' },
-  'post-6': { title:'Micro-interactions that actually matter', tag:'design', date:'Jun 22, 2025', read:'5 min read' },
-};
+async function loadPost() {
+  try {
+    const snap = await db.collection('blog_posts').doc(POST_ID).get();
+    if (!snap.exists) {
+      // fallback — show 404 message
+      document.getElementById('postTitle').textContent = 'Post not found';
+      document.getElementById('postBody').innerHTML = '<p style="color:var(--muted)">This post doesn\'t exist or has been deleted.</p>';
+      return;
+    }
+    const post = snap.data();
+    const tag = post.category || 'design';
+    const date = post.createdAt ? new Date(post.createdAt.seconds*1000).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}) : '';
 
-// Update hero with correct post data
-const pd = postData[POST_ID] || postData['featured-post'];
-document.getElementById('postTitle').textContent = pd.title;
-document.getElementById('postDate').textContent = pd.date;
-document.getElementById('postRead').textContent = pd.read;
-document.getElementById('postTagBreadcrumb').textContent = pd.tag.charAt(0).toUpperCase() + pd.tag.slice(1);
-const tagBadge = document.getElementById('postTagBadge');
-tagBadge.textContent = pd.tag.charAt(0).toUpperCase() + pd.tag.slice(1);
-tagBadge.className = 'post-tag ' + pd.tag;
-document.title = pd.title + ' — Shining Sun';
+    // Update hero
+    document.getElementById('postTitle').textContent = post.title;
+    document.getElementById('postDate').textContent = date;
+    document.getElementById('postRead').textContent = post.readTime || '';
+    document.getElementById('postExcerpt').textContent = post.excerpt || '';
+    document.getElementById('postTagBreadcrumb').textContent = tag.charAt(0).toUpperCase() + tag.slice(1);
+    const tagBadge = document.getElementById('postTagBadge');
+    tagBadge.textContent = tag.charAt(0).toUpperCase() + tag.slice(1);
+    tagBadge.className = 'post-tag ' + tag;
+    document.title = post.title + ' — Shining Sun';
+
+    // Update OG meta dynamically
+    document.querySelector('meta[property="og:title"]') && (document.querySelector('meta[property="og:title"]').content = post.title + ' — Shining Sun');
+    document.querySelector('meta[property="og:description"]') && (document.querySelector('meta[property="og:description"]').content = post.excerpt || '');
+    document.querySelector('meta[name="twitter:title"]') && (document.querySelector('meta[name="twitter:title"]').content = post.title + ' — Shining Sun');
+
+    // Cover image
+    if (post.cover) {
+      document.getElementById('postCoverImg').src = post.cover;
+    }
+
+    // Render content
+    document.getElementById('postBody').innerHTML = parseMarkdown(post.content || '');
+
+    // Build TOC from h2s in rendered content
+    buildTOC();
+
+  } catch(e) {
+    console.error('Load post error:', e);
+    document.getElementById('postBody').innerHTML = '<p style="color:var(--muted)">Could not load post content.</p>';
+  }
+}
+
+function buildTOC() {
+  const headings = document.querySelectorAll('#postBody h2, #postBody h3');
+  const tocList = document.getElementById('tocList');
+  if (!headings.length) { tocList.innerHTML = '<li style="font-size:12px;color:var(--muted);font-family:Barlow Condensed,sans-serif;letter-spacing:.1em">No sections</li>'; return; }
+  tocList.innerHTML = '';
+  headings.forEach((h, i) => {
+    h.id = 'section-' + i;
+    const li = document.createElement('li');
+    li.className = 'toc-item';
+    const isH3 = h.tagName === 'H3';
+    li.innerHTML = `<a href="#section-${i}" style="${isH3?'padding-left:24px;font-size:12px;':''}">${h.textContent}</a>`;
+    li.querySelector('a').addEventListener('click', e => {
+      e.preventDefault();
+      h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    tocList.appendChild(li);
+  });
+}
+
+// INIT — load post from Firestore
+loadPost();
 
 // CURSOR
 const cursor = document.getElementById('cursor');
@@ -449,26 +519,18 @@ window.addEventListener('scroll', () => {
   document.getElementById('readingFill').style.width = pct + '%';
   document.getElementById('readingPct').textContent = pct + '% read';
   // TOC active state
-  const headings = document.querySelectorAll('.prose h2');
+  const headings = document.querySelectorAll('#postBody h2, #postBody h3');
   headings.forEach((h, i) => {
     const rect = h.getBoundingClientRect();
-    if (rect.top < 120) {
+    if (rect.top < 140) {
       document.querySelectorAll('.toc-item a').forEach(a => a.classList.remove('active'));
-      const tocLink = document.querySelector('.toc-item a[data-target="h-' + i + '"]');
+      const tocLink = document.querySelector('.toc-item a[href="#section-' + i + '"]');
       if (tocLink) tocLink.classList.add('active');
     }
   });
 });
 
-// TOC smooth scroll
-document.querySelectorAll('.toc-item a').forEach((a, i) => {
-  a.href = '#';
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const headings = document.querySelectorAll('.prose h2');
-    if (headings[i]) headings[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
+// TOC built dynamically by buildTOC() after post loads
 
 // TOAST
 function toast(msg, type = 'info') {
