@@ -2,6 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+  <meta name="description" content="Thoughts on code, design, gaming, and everything in between. By Shining Sun.">
+  <meta name="author" content="Shining Sun">
+  <link rel="canonical" href="https://iamshiningsun.github.io/blog.html">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Blog — Shining Sun">
+  <meta property="og:description" content="Thoughts on code, design, gaming, and everything in between. By Shining Sun.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-keybanner.jpg">
+  <meta property="og:url" content="https://iamshiningsun.github.io/blog.html">
+  <meta property="og:site_name" content="Shining Sun">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blog — Shining Sun">
+  <meta name="twitter:description" content="Thoughts on code, design, gaming, and everything in between. By Shining Sun.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-keybanner.jpg">
+  <meta name="twitter:creator" content="@iamshiningsun">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blog — Shining Sun</title>
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/icon.png">
@@ -19,6 +35,15 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .toast{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;padding:14px 20px;border:1px solid rgba(124,79,196,.4);background:rgba(18,14,34,.95);color:var(--white);backdrop-filter:blur(8px);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);display:flex;align-items:center;gap:10px;transform:translateX(120%);transition:transform .35s cubic-bezier(.16,1,.3,1)}
 .toast.show{transform:translateX(0)}.toast.success{border-color:rgba(127,255,106,.4)}.toast.error{border-color:rgba(255,80,80,.4)}
 .toast-dot{width:6px;height:6px;border-radius:50%;background:var(--plight);flex-shrink:0}.toast.success .toast-dot{background:var(--green)}.toast.error .toast-dot{background:#ff5050}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity .6s ease}
+#loader.done{opacity:0;pointer-events:none}
+.loader-name{font-family:'Barlow Condensed',sans-serif;font-size:clamp(28px,5vw,56px);font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:var(--white)}
+.loader-name em{font-style:normal;color:var(--gold)}
+.loader-bar-wrap{width:200px;height:2px;background:rgba(124,79,196,.2)}
+.loader-bar{height:100%;background:linear-gradient(to right,var(--purple),var(--gold));width:0%;transition:width .05s linear}
+.loader-status{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.3em;color:var(--plight);text-transform:uppercase;opacity:.7}
 
 /* AUTH MODAL */
 #auth-modal{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;background:rgba(11,8,22,.85);backdrop-filter:blur(8px)}
@@ -290,6 +315,13 @@ footer{padding:36px 72px;display:flex;align-items:center;justify-content:space-b
 </head>
 <body>
 
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-name">The <em>Blog</em></div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+  <div class="loader-status" id="loaderStatus">Loading...</div>
+</div>
+
 <div id="cursor"></div>
 <div id="cursor-trail"></div>
 <div id="scroll-progress"></div>
@@ -400,12 +432,12 @@ footer{padding:36px 72px;display:flex;align-items:center;justify-content:space-b
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="shiningsun_advanced.html">Shining <em>Sun</em></a>
+  <a class="nav-logo" href="index.html">Shining <em>Sun</em></a>
   <ul class="nav-links">
-    <li><a href="shiningsun_advanced.html">Portfolio</a></li>
+    <li><a href="index.html">Portfolio</a></li>
     <li><a href="blog.html" class="active">Blog</a></li>
     <li><a href="bookmarks.html">Bookmarks</a></li>
-    <li><a href="shiningsun_advanced.html#contact">Contact</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
   </ul>
   <div class="nav-right"><div id="navAuthSection"><button class="nav-auth-btn" onclick="openAuth()">Sign In</button></div></div>
 </nav>
@@ -502,7 +534,7 @@ footer{padding:36px 72px;display:flex;align-items:center;justify-content:space-b
   <div class="footer-name">Shining <em>Sun</em></div>
   <img class="footer-chibi" src="https://raw.githubusercontent.com/iamshiningsun/iamshiningsun.github.io/main/assets/clove-chibi-face.png" alt="">
   <ul class="footer-links">
-    <li><a href="shiningsun_advanced.html">Portfolio</a></li>
+    <li><a href="index.html">Portfolio</a></li>
     <li><a href="blog.html">Blog</a></li>
     <li><a href="bookmarks.html">Bookmarks</a></li>
   </ul>
@@ -527,6 +559,20 @@ const db=firebase.firestore();
 const auth=firebase.auth();
 
 const ADMIN_EMAIL = 'iamshiningsun@gmail.com';
+
+// LOADER
+const loaderBar=document.getElementById('loaderBar');
+const loaderStatus=document.getElementById('loaderStatus');
+const loader=document.getElementById('loader');
+const loaderSteps=[[20,'Loading...'],[50,'Connecting Firebase...'],[80,'Fetching posts...'],[100,'Ready!']];
+let lsi=0;
+const li=setInterval(()=>{
+  if(lsi<loaderSteps.length){
+    loaderBar.style.width=loaderSteps[lsi][0]+'%';
+    loaderStatus.textContent=loaderSteps[lsi][1];
+    lsi++;
+  }else{clearInterval(li);setTimeout(()=>loader.classList.add('done'),400);}
+},280);
 
 // CURSOR
 const cursor=document.getElementById('cursor');
